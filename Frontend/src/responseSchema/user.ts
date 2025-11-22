@@ -1,0 +1,13 @@
+import Zod from "zod";
+
+export const userSchema = Zod.object({
+	_id: Zod.string(),
+	id: Zod.string(),
+	name: Zod.string(),
+	email: Zod.string(),
+    phoneNumber: Zod.string(),
+	subject:Zod.string(),
+	Message:Zod.string(),
+	Date:Zod.date(),
+	role: Zod.number().min(1).max(3),
+});

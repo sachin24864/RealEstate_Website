@@ -1,0 +1,27 @@
+import Zod from "zod";
+import { Client } from "./abstract";
+import { userSchema } from "../responseSchema/user";
+
+export class UserClient extends Client {
+	constructor(url: string) {
+		super(url);
+	}
+
+	async list() {
+		const res = await this.request("GET", `/api/users/` );
+		const body = Zod.array(Zod.any()).safeParse(res?.data);
+		if (!body.success) {
+			throw new Error("Invalid data for backend");
+		}
+		const array: Array<typeof userSchema._type> = [];
+		body.data.forEach((ele) => {
+			try {
+				const parsedData = userSchema.parse(ele);
+				array.push(parsedData);
+			} catch (error) {
+				console.error(error);
+			}
+		});
+		return array;
+	}
+}
