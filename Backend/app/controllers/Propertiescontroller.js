@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import { status, role } from "../constants/index.js";
 import * as PropertiesServices from "../services/Properties.js";
 import * as UserServices from "../services/user.js";
+import fs from "fs";
+import path from "path";
 
 
 // =============================
@@ -180,19 +182,48 @@ export const getPic = async (req, res, next) => {
   }
 };
 // =============================
-// Delete Property
+// Delete Property (Soft delete + delete images from disk)
 // =============================
 export const deleteProperty = async (req, res, next) => {
   try {
     const id = req.params.id;
 
+    // Find the active property
     const property = await PropertiesServices.findOne({ _id: id, IsStatus: status.active });
 
     if (!property) {
       return res.status(404).json({ error: "Property not found or already deleted" });
     }
 
-    await PropertiesServices.updateOne({ _id: id }, { $set: { IsStatus: status.deleted } });
+    // Delete images from server if any
+    if (property.images && Array.isArray(property.images) && property.images.length > 0) {
+      const deletePromises = property.images.map((imgPath) => {
+        // imgPath example: "/uploads/properties/abc123.jpg"
+        const fullPath = path.join(
+          process.cwd(),
+          "public",
+          imgPath.replace(/^\//, "") // remove leading "/" so path.join works properly
+        );
+
+        return fs.promises.unlink(fullPath).catch((err) => {
+          // Don't block deletion if a file is missing or cannot be deleted
+          console.error("Error deleting property image:", fullPath, err.message);
+        });
+      });
+
+      await Promise.all(deletePromises);
+    }
+
+    // Soft delete the property + clear images if you want
+    await PropertiesServices.updateOne(
+      { _id: id },
+      {
+        $set: {
+          IsStatus: status.deleted,
+          images: [], // optional: remove image references from DB too
+        },
+      }
+    );
 
     return res.json({ id, message: "Property deleted successfully" });
   } catch (error) {
@@ -200,6 +231,7 @@ export const deleteProperty = async (req, res, next) => {
     next(error);
   }
 };
+
 
 
 // =============================
