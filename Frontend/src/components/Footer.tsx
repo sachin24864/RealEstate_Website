@@ -24,7 +24,7 @@ const Footer: React.FC = () => {
         <div className="bg-gray-800 rounded-xl p-6 shadow-md flex flex-col">
           <div className="flex-grow">
             <div className="flex items-center gap-3 mb-4">
-              <img src="/assets/gallery/logo/logo_4.png" alt="Naveen Associates Logo" className="h-10" />
+              <img src="/assets/gallery/logo/logo_4.png" alt="Naveen Associates Logo" className="h-10" onClick={() => window.location.href=('/')} />
               <div>
                 <h3 className="text-xl font-bold text-white">Naveen Associates</h3>
                 <p className="text-sm text-gray-400">Trusted for Transparency</p>

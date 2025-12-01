@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react"; // Icons for mobile menu toggle
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Menu, X } from "lucide-react";
 
 const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState<boolean>(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const Navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -25,6 +27,16 @@ const Navbar: React.FC = () => {
     };
   }, []);
 
+  const getLinkClass = (path: string) => {
+    return location.pathname === path ? "text-cyan-400" : "hover:text-gray-300 transition";
+  };
+
+  const getDropdownLinkClass = (path: string) => {
+    return location.pathname + location.search === path
+      ? "block px-4 py-2 bg-gray-700 text-cyan-400" 
+      : "block px-4 py-2 hover:bg-gray-700"; 
+  };
+
   return (
     <header
       className={`fixed top-0 w-full z-50 transition-colors duration-300 ${scrolled ? "bg-black shadow-md" : "bg-transparent"
@@ -37,6 +49,8 @@ const Navbar: React.FC = () => {
             src="/assets/gallery/logo/logo_4.png"
             alt="Logo"
             className="h-10"
+            onClick={() => window.location.href=('/')}
+
           />
           <span className="text-white font-bold text-xl">
             Naveen Associates
@@ -44,14 +58,13 @@ const Navbar: React.FC = () => {
         </div>
 
         <nav className="hidden md:flex relative gap-10 text-white font-medium mr-6">
-          <Link to="/" className="hover:text-gray-300 transition">Home</Link>
-          <Link to="/about-us" className="hover:text-gray-300 transition">
-            About Us
-          </Link>
+          <Link to="/" className={getLinkClass("/")}>Home</Link>
+          <Link to="/about-us" className={getLinkClass("/about-us")}>About Us</Link>
 
           <div className="relative" ref={dropdownRef}>
             <button
-              className="focus:outline-none flex items-center gap-1 hover:text-gray-300"
+              className={`focus:outline-none flex items-center gap-1 transition ${location.pathname === "/filter" ? "text-cyan-400" : "hover:text-gray-300"
+                }`}
               onClick={() => setIsDropdownOpen((prev) => !prev)}
             >
               Properties ▾
@@ -61,21 +74,21 @@ const Navbar: React.FC = () => {
               <div className="absolute left-0 mt-2 w-48 bg-gray-800 text-white rounded shadow-lg border border-gray-700">
                 <Link
                   to="/filter?type=Residential"
-                  className="block px-4 py-2 hover:bg-gray-700"
+                  className={getDropdownLinkClass("/filter?type=Residential")}
                   onClick={() => setIsDropdownOpen(false)}
                 >
                   Residential
                 </Link>
                 <Link
                   to="/filter?type=Commercial"
-                  className="block px-4 py-2 hover:bg-gray-700"
+                  className={getDropdownLinkClass("/filter?type=Commercial")}
                   onClick={() => setIsDropdownOpen(false)}
                 >
                   Commercial
                 </Link>
                 <Link
                   to="/filter?type=Industrial"
-                  className="block px-4 py-2 hover:bg-gray-700"
+                  className={getDropdownLinkClass("/filter?type=Industrial")}
                   onClick={() => setIsDropdownOpen(false)}
                 >
                   Industrial
@@ -84,15 +97,9 @@ const Navbar: React.FC = () => {
             )}
           </div>
 
-          <Link to="/projects" className="hover:text-gray-300 transition">
-            Gallery
-          </Link>
-          <Link to="/blogs" className="hover:text-gray-300 transition">
-            Blogs
-          </Link>
-          <Link to="/contact" className="hover:text-gray-300 transition">
-            Contact Us
-          </Link>
+          <Link to="/projects" className={getLinkClass("/projects")}>Gallery</Link>
+          <Link to="/blogs" className={getLinkClass("/blogs")}>Blogs</Link>
+          <Link to="/contact" className={getLinkClass("/contact")}>Contact Us</Link>
         </nav>
 
         {/* Mobile Menu Button */}
@@ -107,17 +114,17 @@ const Navbar: React.FC = () => {
       {/* Mobile Dropdown Menu */}
       {isMobileMenuOpen && (
         <div className="md:hidden bg-black text-white px-6 py-4 space-y-3 border-t border-gray-700">
-          <Link to="/" className="block hover:text-gray-300" onClick={() => setIsMobileMenuOpen(false)}>
+          <Link to="/" className={`block ${getLinkClass("/")}`} onClick={() => setIsMobileMenuOpen(false)}>
             Home
           </Link>
-          <Link to="/about-us" className="block hover:text-gray-300" onClick={() => setIsMobileMenuOpen(false)}>
+          <Link to="/about-us" className={`block ${getLinkClass("/about-us")}`} onClick={() => setIsMobileMenuOpen(false)}>
             About Us
           </Link>
 
           <div className="relative" ref={dropdownRef}>
             <button
-              className="focus:outline-none flex items-center gap-1 hover:text-cyan-400 transition"
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className={`focus:outline-none flex items-center gap-1 transition w-full text-left ${location.pathname === "/filter" ? "text-cyan-400" : "hover:text-gray-300"
+                }`} onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             >
               Properties ▾
             </button>
@@ -126,22 +133,31 @@ const Navbar: React.FC = () => {
               <div className="absolute left-0 mt-2 w-48 bg-gray-800 text-white rounded shadow-lg border border-gray-700">
                 <Link
                   to="/filter?type=Residential"
-                  className="block px-4 py-2 hover:bg-gray-700"
-                  onClick={() => setIsDropdownOpen(false)}
+                  className={getDropdownLinkClass("/filter?type=Residential")}
+                  onClick={() => {
+                    setIsDropdownOpen(false);
+                    setIsMobileMenuOpen(false);
+                  }}
                 >
                   Residential
                 </Link>
                 <Link
                   to="/filter?type=Commercial"
-                  className="block px-4 py-2 hover:bg-gray-700"
-                  onClick={() => setIsDropdownOpen(false)}
+                  className={getDropdownLinkClass("/filter?type=Commercial")}
+                  onClick={() => {
+                    setIsDropdownOpen(false);
+                    setIsMobileMenuOpen(false);
+                  }}
                 >
                   Commercial
                 </Link>
                 <Link
                   to="/filter?type=Industrial"
-                  className="block px-4 py-2 hover:bg-gray-700"
-                  onClick={() => setIsDropdownOpen(false)}
+                  className={getDropdownLinkClass("/filter?type=Industrial")}
+                  onClick={() => {
+                    setIsDropdownOpen(false);
+                    setIsMobileMenuOpen(false);
+                  }}
                 >
                   Industrial
                 </Link>
@@ -150,21 +166,21 @@ const Navbar: React.FC = () => {
           </div>
           <Link
             to="/projects"
-            className="block hover:text-gray-300"
+            className={`block ${getLinkClass("/projects")}`}
             onClick={() => setIsMobileMenuOpen(false)}
           >
             Gallery
           </Link>
           <Link
             to="/blogs"
-            className="block hover:text-gray-300"
+            className={`block ${getLinkClass("/blogs")}`}
             onClick={() => setIsMobileMenuOpen(false)}
           >
             Blogs
           </Link>
           <Link
             to="/contact"
-            className="block hover:text-gray-300"
+            className={`block ${getLinkClass("/contact")}`}
             onClick={() => setIsMobileMenuOpen(false)}
           >
             Contact Us

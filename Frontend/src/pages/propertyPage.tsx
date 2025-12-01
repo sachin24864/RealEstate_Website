@@ -157,7 +157,7 @@ const PropertyPage: React.FC = () => {
                             <div className="flex flex-col space-y-4">
                                 <Title level={1} className="!mb-0 !text-white">{property.title}</Title>
 
-                                <Text type="secondary" className="text-lg !text-gray-400">
+                                <Text type="secondary" className="text-lg !text-cyan-500">
                                     <EnvironmentOutlined className="mr-2" />
                                     {property.Location}
                                 </Text>
@@ -177,20 +177,20 @@ const PropertyPage: React.FC = () => {
 
                                 <Card size="small" className="bg-gray-700 border-gray-600">
                                     <div className="flex items-center space-x-4">
-                                        <AreaChartOutlined className="text-3xl text-custom-gold" />
+                                        <AreaChartOutlined className="text-3xl text-cyan-500" />
                                         <div>
-                                            <Text type="secondary" className="block">Project Size</Text>
-                                            <Text strong className="text-base">{property.area_sqft} Sq. Ft.</Text>
+                                            <Text  className="block text-base text-white">Project Size</Text>
+                                            <Text strong className="text-base text-white">{property.area_sqft} Sq. Ft.</Text>
                                         </div>
                                     </div>
                                 </Card>
 
                                 <Card size="small" className="bg-gray-700 border-gray-600">
                                     <div className="flex items-center space-x-4">
-                                        <HomeOutlined className="text-3xl text-custom-gold" />
+                                        <HomeOutlined className="text-3xl text-cyan-500" />
                                         <div>
-                                            <Text type="secondary" className="block">Properties for Sale</Text>
-                                            <Text strong className="text-base">in {property.title}</Text>
+                                            <Text  className="block text-base text-white">Properties for Sale</Text>
+                                            <Text strong className="text-base text-white">in {property.title}</Text>
                                         </div>
                                     </div>
                                 </Card>
