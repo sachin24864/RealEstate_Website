@@ -83,8 +83,8 @@ const ContactPage: React.FC = () => {
               {
                 icon: <GlobalOutlined />,
                 title: "Website",
-                text: "www.eliteproinfra.com",
-                link: "https://www.eliteproinfra.com",
+                text: "www.naveenassociatesgroup.com",
+                link: "https://naveenassociatesgroup.com",
               },
               {
                 icon: <EnvironmentOutlined />,
@@ -143,9 +143,9 @@ const ContactPage: React.FC = () => {
           <Row gutter={[48, 32]} align="middle" style={{ maxWidth: 1200, margin: '0 auto' }}>
             {/* Map Column */}
             <Col xs={24} lg={10}>
-              <a href="https://www.google.com/maps/search/?api=1&query=Westerlies+Main+Gate,+Experion+Heartsong+Tower+4,+Experion+Heartsong,+Sector+108,+Gurugram,+Haryana+122006,+India" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.google.com/maps/search/?api=1&query=NAVEEN%20ASSOCIATES%20SECTOR%20108%2C%20Gurugram%2C%20Haryana%2C%20India" target="_blank" rel="noopener noreferrer">
                 <iframe
-                  src="https://maps.google.com/maps?q=Westerlies%20Main%20Gate%2C%20Experion%20Heartsong%20Tower%204%2C%20Experion%20Heartsong%2C%20Sector%20108%2C%20Gurugram%2C%20Haryana%20122006%2C%20India&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                  src="https://maps.google.com/maps?q=NAVEEN%20ASSOCIATES%20SECTOR%20108%2C%20Gurugram%2C%20Haryana%2C%20India&t=&z=15&ie=UTF8&iwloc=&output=embed"
                   width="100%"
                   height="550"
                   style={{ border: 0, borderRadius: '12px' }}
