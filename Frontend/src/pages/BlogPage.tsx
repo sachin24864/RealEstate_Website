@@ -3,6 +3,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Layout, Typography, Card, Row, Col, Spin } from 'antd';
 import { blogClint } from '@/store';
+import { Link } from "react-router-dom";
 
 const { Content } = Layout;
 const { Title, Paragraph } = Typography;
@@ -21,12 +22,37 @@ const BlogPage: React.FC = () => {
     const [blogs, setBlogs] = useState<BlogItem[]>([]);
     const [loading, setLoading] = useState(true);
 
+    const setMeta = (name: string, content: string) => {
+        let el = document.head.querySelector(`meta[name="${name}"]`) as HTMLMetaElement | null;
+        if (!el) {
+            el = document.createElement("meta");
+            el.setAttribute("name", name);
+            document.head.appendChild(el);
+        }
+        el.content = content;
+    };
+
+    const setCanonical = (href: string) => {
+        let link = document.head.querySelector<HTMLLinkElement>("link[rel='canonical']");
+        if (!link) {
+            link = document.createElement("link");
+            link.rel = "canonical";
+            document.head.appendChild(link);
+        }
+        link.href = href;
+    };
+
     useEffect(() => {
         const fetchBlogs = async () => {
             try {
                 setLoading(true);
                 const data = await blogClint.getBlog();
                 setBlogs(data.blogs);
+
+               // Set page-level SEO meta
+            document.title = "Blog & News | Real Estate";
+            setMeta("description", "Read our latest blog posts about real estate trends, market insights, and tips.");
+            setCanonical(`${window.location.origin}/blogs`);
             } catch (error) {
                 console.error("Failed to fetch blogs:", error);
             } finally {
@@ -35,6 +61,8 @@ const BlogPage: React.FC = () => {
         };
         fetchBlogs();
     }, []);
+    const truncate = (text: string | undefined, n = 150) =>
+        !text ? "" : text.length > n ? text.slice(0, n).trimEnd() + "..." : text;
 
     return (
         <>
@@ -59,16 +87,31 @@ const BlogPage: React.FC = () => {
                         ) : (
                             <Row gutter={[32, 32]}>
                                 {blogs.map((blog) => (
+                                    // <Col key={blog._id} xs={24} sm={12} lg={8}>
+                                    //     <Card
+                                    //         hoverable
+                                    //         className="bg-gray-800 border-gray-700 text-white h-full flex flex-col"
+                                    //         cover={<img alt={blog.title} src={`${BACKEND_URL}${blog.image}`} className="h-56 w-full object-contain bg-black" />}
+                                    //     >
+                                    //         <Title level={4} className="!text-white">{blog.title}</Title>
+                                    //         <Paragraph className="text-gray-300 flex-grow">{blog.description}</Paragraph>
+                                    //         <p className="text-xs text-gray-500 mt-4">{new Date(blog.createdAt).toLocaleDateString()}</p>
+                                    //     </Card>
+                                    // </Col>
                                     <Col key={blog._id} xs={24} sm={12} lg={8}>
-                                        <Card
-                                            hoverable
-                                            className="bg-gray-800 border-gray-700 text-white h-full flex flex-col"
-                                            cover={<img alt={blog.title} src={`${BACKEND_URL}${blog.image}`} className="h-56 w-full object-contain bg-black" />}
-                                        >
-                                            <Title level={4} className="!text-white">{blog.title}</Title>
-                                            <Paragraph className="text-gray-300 flex-grow">{blog.description}</Paragraph>
-                                            <p className="text-xs text-gray-500 mt-4">{new Date(blog.createdAt).toLocaleDateString()}</p>
-                                        </Card>
+                                        <Link to={`/blog/${blog._id}`} className="block">
+                                            <Card
+                                                hoverable
+                                                className="bg-gray-800 border-gray-700 text-white h-full flex flex-col"
+                                                cover={<img alt={blog.title} src={`${BACKEND_URL}${blog.image}`} className="h-56 w-full object-contain bg-black" />}
+                                            >
+                                                <Title level={4} className="!text-white">{blog.title}</Title>
+                                                <Paragraph className="text-gray-300 flex-grow">
+                                                    {truncate(blog.description, 150)}
+                                                </Paragraph>
+                                                <p className="text-xs text-gray-500 mt-4">{new Date(blog.createdAt).toLocaleDateString()}</p>
+                                            </Card>
+                                        </Link>
                                     </Col>
                                 ))}
                             </Row>

@@ -40,11 +40,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 setUser(response.data.user);
                 setIsAuthenticated(true);
             }
-        } catch (error) {
-            console.error("Authentication check failed:", error);
-            setUser(null);
-            setIsAuthenticated(false);
-        } finally {
+            // } catch (error) {
+            //     console.error("Authentication check failed:", error);
+            //     setUser(null);
+            //     setIsAuthenticated(false);
+            // }
+        } catch (error: any) {
+            if (error?.response?.status === 401) {
+                // Not logged in — expected
+                setUser(null);
+                setIsAuthenticated(false);
+            } else {
+                console.error("Auth check failed:", error);
+            }
+        }
+        finally {
             setIsLoading(false);
         }
     }, []);

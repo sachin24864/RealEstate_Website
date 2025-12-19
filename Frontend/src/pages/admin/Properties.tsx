@@ -39,6 +39,7 @@ export default function Properties() {
           bedrooms: p.bedrooms || p.Beds,
           bathrooms: p.bathrooms || p.Baths,
           area_sqft: p.area_sqft,
+          unit: p.unit || p.Unit || "",
           status: p.status || p.Status,
           images: p.images || [],
           createdAt: p.createdAt,
@@ -66,6 +67,7 @@ export default function Properties() {
       bedrooms: newProperty.bedrooms,
       bathrooms: newProperty.bathrooms,
       area_sqft: newProperty.area_sqft,
+      unit: newProperty.unit || "",
       status: newProperty.status,
       images: newProperty.images || [],
       createdAt: newProperty.createdAt,
@@ -98,7 +100,7 @@ export default function Properties() {
     setProperties((prev) =>
       prev.map((prop) =>
         prop.id === updatedProperty.id
-          ? { ...prop, ...updatedProperty } 
+          ? { ...prop, ...updatedProperty }
           : prop
       )
     );
@@ -137,6 +139,7 @@ export default function Properties() {
                       <TableHead>Type</TableHead>
                       <TableHead>Beds</TableHead>
                       <TableHead>Baths</TableHead>
+                      <TableHead>Size</TableHead>
                       <TableHead>Status</TableHead>
                       <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
@@ -151,12 +154,14 @@ export default function Properties() {
                         <TableCell>{property.bedrooms || "N/A"}</TableCell>
                         <TableCell>{property.bathrooms || "N/A"}</TableCell>
                         <TableCell>
+                          {property.area_sqft ? `${property.area_sqft} ${property.unit || ""}` : "N/A"}
+                        </TableCell>
+                        <TableCell>
                           <span
-                            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                              property.status === "Ready_to_Move"
+                            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${property.status === "Ready_to_Move"
                                 ? "bg-green-100 text-green-800"
                                 : "bg-gray-100 text-gray-800"
-                            }`}
+                              }`}
                           >
                             {property.status}
                           </span>

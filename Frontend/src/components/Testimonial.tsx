@@ -9,25 +9,25 @@ interface TestimonialType {
 
 const testimonials: TestimonialType[] = [
   {
-    name: 'Ananya Mehta',
+    name: ' Gourav Ajmera',
     role: 'Homebuyer, Gurgaon',
     quote:
       'The team was incredibly professional and helped me find the perfect home. Their attention to detail and transparency made the entire process seamless.',
-    image: '/assets/gallery/test/test.jpg',
+    image: '/assets/gallery/test/gourav.jpg',
   },
   {
-    name: 'Rohit Sharma',
+    name: 'Atul Dahiya',
     role: 'Investor, Delhi NCR',
     quote:
       'I was impressed by the quality of projects and the level of service. Highly recommended for anyone looking to invest in real estate.',
-    image: '/assets/gallery/test/test_4.jpg',
+    image: '/assets/gallery/test/atul.jpg',
   },
   {
-    name: 'Priya Verma',
+    name: 'Vishal Oberoi',
     role: 'Commercial Client',
     quote:
       'From site visits to final paperwork, everything was handled with care and precision. Truly a premium experience.',
-    image: '/assets/gallery/test/test_2.jpg',
+    image: '/assets/gallery/test/vishal.jpg',
   },
 ];
 

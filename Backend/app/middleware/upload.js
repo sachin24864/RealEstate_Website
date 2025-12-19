@@ -5,8 +5,10 @@ import fs from "fs";
 // Ensure the upload directories exist
 const blogUploadDir = "public/uploads/blogs";
 const propertyUploadDir = "public/uploads/properties";
+const galleryUploadDir = "public/uploads/gallery";
 fs.mkdirSync(blogUploadDir, { recursive: true });
 fs.mkdirSync(propertyUploadDir, { recursive: true });
+fs.mkdirSync(galleryUploadDir, { recursive: true });
 
 const propertyImageStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -49,5 +51,22 @@ export const blogUpload = multer({
     } else {
       cb(new Error("Only image files (jpg, jpeg, png, webp) are allowed"));
     }
+  },
+});
+
+export const galleryUpload = multer({
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, galleryUploadDir);
+    },
+    filename: (req, file, cb) => {
+      cb(null, `${Date.now()}-${file.originalname}`);
+    },
+  }),
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = ["image/jpeg", "image/png", "image/jpg", "image/webp"];
+    if (allowedTypes.includes(file.mimetype)) cb(null, true);
+    else cb(new Error("Only image files (jpg, jpeg, png, webp) are allowed"));
   },
 });

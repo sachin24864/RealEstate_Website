@@ -24,10 +24,10 @@ const Footer: React.FC = () => {
         <div className="bg-gray-800 rounded-xl p-6 shadow-md flex flex-col">
           <div className="flex-grow">
             <div className="flex items-center gap-3 mb-4">
-              <img src="/assets/gallery/logo/logo_4.png" alt="Naveen Associates Logo" className="h-10" onClick={() => window.location.href=('/')} />
+              <img src="/assets/gallery/logo/logo_4.png" alt="Naveen Associates Logo" className="h-10" onClick={() => window.location.href = ('/')} />
               <div>
                 <h3 className="text-xl font-bold text-white">Naveen Associates</h3>
-                <p className="text-sm text-gray-400">Trusted for Transparency</p>
+                <p className="text-sm text-gray-400">Concept to Creation</p>
               </div>
             </div>
             <ul className="space-y-3 text-sm mt-8">
@@ -43,21 +43,25 @@ const Footer: React.FC = () => {
                 <MapPinIcon className="h-4 w-4 text-cyan-700" />
                 DP01 Tricolour Street, Sector 108, Near Westerlies main gate, Gurugram
               </li>
+              <li className="flex items-center gap-2">
+                <MapPinIcon className="h-4 w-4 text-cyan-700" />
+                Branch Office: Plot No. 175, Adani Oyster Greens, Near Prime Scholars International School, Sector 102A, Gurugram
+              </li>
             </ul>
           </div>
           <div>
             <h1 className="text-xl font-bold text-cyan-700 mt-8">Follow Us</h1>
             <div className="flex gap-8 mt-4 text-white">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <a href="https://www.facebook.com/profile.php?id=61559802570755" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
                 <FaFacebookF className="hover:text-cyan-700 cursor-pointer" />
               </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+              <a href="https://x.com/NaveenAsso54747" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
                 <FaTwitter className="hover:text-cyan-700 cursor-pointer" />
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <a href="https://www.instagram.com/naveenassociates108" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                 <FaInstagram className="hover:text-cyan-700 cursor-pointer" />
               </a>
-              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+              <a href="https://www.youtube.com/@Naveenassociates102" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
                 <FaYoutube className="hover:text-cyan-700 cursor-pointer" />
               </a>
             </div>
@@ -79,9 +83,9 @@ const Footer: React.FC = () => {
               </Link>
             </li>
             <li>
-              <a href="#developers" onClick={(e) => handleScrollLink(e, '#developers')} className="hover:text-cyan-700 mt-6 cursor-pointer">
-                Developers
-              </a>
+              <Link to="/gallery" className="hover:text-cyan-700 mt-6">
+                Gallery
+              </Link>
             </li>
             <li>
               <Link to="/contact" className="hover:text-cyan-700 mt-6">
@@ -104,20 +108,20 @@ const Footer: React.FC = () => {
           <ul className="space-y-4 text-sm">
             <li>
               <div className="bg-gray-700 rounded-md p-3">
-                <p className="font-semibold text-white">Whiteland The Aspen</p>
-                <p className="text-gray-400 text-xs">Sector 76, Gurgaon</p>
+                <p className="font-semibold text-white">SOBHA Altus</p>
+                <p className="text-gray-400 text-xs">Sector 106, Gurugram</p>
               </div>
             </li>
             <li>
               <div className="bg-gray-700 rounded-md p-3">
-                <p className="font-semibold text-white">Whiteland Blissville</p>
-                <p className="text-gray-400 text-xs">Sector 76, Gurgaon</p>
+                <p className="font-semibold text-white">AIPL Lake City</p>
+                <p className="text-gray-400 text-xs"> Sector 103, Gurugram</p>
               </div>
             </li>
             <li>
               <div className="bg-gray-700 rounded-md p-3">
-                <p className="font-semibold text-white">DLF The Arbour</p>
-                <p className="text-gray-400 text-xs">Premium Location</p>
+                <p className="font-semibold text-white">ADANI</p>
+                <p className="text-gray-400 text-xs">Sector 102A, Gurugram</p>
               </div>
             </li>
           </ul>

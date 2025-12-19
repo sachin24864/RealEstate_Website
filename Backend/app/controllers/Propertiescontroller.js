@@ -13,7 +13,7 @@ import path from "path";
 export const addProperties = async (req, res, next) => {
   try {
 
-    const { title, description, location, price, property_type, bedrooms, bathrooms, area_sqft, status } = req.body;
+    const { title, description, location, price, property_type, bedrooms, bathrooms, area_sqft, unit, statusmetaTitle, metaDescription } = req.body;
     const imagePaths = req.files
       ? req.files.map((file) => `/${file.path.replace(/\\/g, "/").replace("public/", "")}`)
       : [];
@@ -27,9 +27,12 @@ export const addProperties = async (req, res, next) => {
       bedrooms,
       bathrooms,
       area_sqft,
+      unit,
       property_type,
       status,
       images: imagePaths,
+      metaTitle: metaTitle || title,        // optional fallback
+  metaDescription: metaDescription || (description ? description.substring(0, 160) : ""),
     };
 
     const property = await PropertiesServices.save(creationObj);
@@ -87,6 +90,7 @@ export const getAllProperties = async (req, res, next) => {
         Beds: property.bedrooms,
         Baths: property.bathrooms,
         area_sqft: property.area_sqft,
+        unit: property.unit || "",
         Status: property.status,
         Images: property.images || [],
         createdAt: property.createdAt,
@@ -149,6 +153,7 @@ export const getPropertyById = async (req, res, next) => {
       Beds: property.bedrooms,
       Baths: property.bathrooms,
       area_sqft: property.area_sqft,
+      unit: property.unit || "",
       Status: property.status,
       Images: property.images || [],
       createdAt: property.createdAt,
@@ -240,7 +245,7 @@ export const deleteProperty = async (req, res, next) => {
 export const editProperty = async (req, res, next) => {
   try {
     const id = req.params.id;
-    const { price, status } = req.body;
+    const { price, status, unit } = req.body;
 
     const property = await PropertiesServices.findOne({
       _id: id,
@@ -270,6 +275,7 @@ export const editProperty = async (req, res, next) => {
         property_type: updated.property_type,
         bedrooms: updated.bedrooms,
         bathrooms: updated.bathrooms,
+        unit: updated.unit || "",
         status: updated.status,
         images: updated.images || [],
         updatedAt: updated.updatedAt,

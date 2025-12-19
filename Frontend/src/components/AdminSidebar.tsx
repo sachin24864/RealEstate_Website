@@ -20,6 +20,7 @@ const menuItems = [
   { title: "User Inquiries", url: "/admin/users", icon: Users },
   { title: "Properties", url: "/admin/properties", icon: Building2 },
   { title: "Blogs", url: "/admin/blogs", icon: Rss },
+  { title: "Gallery", url: "/admin/gallery", icon: Rss },
 ];
 
 const logoutItem = { title: "Logout", icon: LogOut };

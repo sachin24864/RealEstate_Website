@@ -22,6 +22,8 @@ const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
 const Users = lazy(() => import("./pages/admin/Users"));
 const Properties = lazy(() => import("./pages/admin/Properties"));
 const Blogs = lazy(() => import("./pages/admin/Blogs"));
+const AdminGallery = lazy(() => import("./pages/admin/Gallery"));
+const BlogOverview = lazy(() => import("./pages/BlogOverview"));
 
 export default function Router() {
   return (
@@ -36,10 +38,16 @@ export default function Router() {
               <Route path="/about-us" element={<AboutPage />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/filter" element={<FilterProperties />} />
+              <Route path="/Residential" element={<FilterProperties />} />
+              <Route path="/Commercial" element={<FilterProperties />} />
+              <Route path="/Industrial" element={<FilterProperties />} />
+              <Route path="/Farm House" element={<FilterProperties />} />
+              <Route path="/Agricultural Land" element={<FilterProperties />} />
               <Route path="/login" element={<Login />} />
               <Route path="/blogs" element={<BlogPage />} />
-              <Route path="/projects" element={<Gallery />} />
+              <Route path="/gallery" element={<Gallery />} />
               <Route path="/property/:id" element={<PropertyPage />} />
+              <Route path="/blog/:id" element={<BlogOverview />} />
 
 
               {/* Protected Admin Routes */}
@@ -55,6 +63,7 @@ export default function Router() {
                   <Route path="/admin/users" element={<Users />} />
                   <Route path="/admin/properties" element={<Properties />} />
                   <Route path="/admin/blogs" element={<Blogs />} />
+                  <Route path="/admin/gallery" element={<AdminGallery />} />
                 </Route>
               </Route>
 

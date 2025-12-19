@@ -39,9 +39,10 @@ const propertySchema = z.object({
   bedrooms: z.string().optional(),
   bathrooms: z.string().optional(),
   area_sqft: z.string().optional(),
+  unit: z.string().min(1, "Unit is required"),
   property_type: z.string().min(1, "Property type is required"),
   status: z.string().min(1, "Status is required"),
-  images: z.array(z.any()).max(5, "You can upload up to 5 images").optional(),
+  images: z.array(z.any()).max(10, "You can upload up to 10 images").optional(),
 });
 
 type PropertyFormData = z.infer<typeof propertySchema>;
@@ -66,6 +67,7 @@ export function AddPropertyDialog({ open, onOpenChange, onAdd }: AddPropertyDial
       bedrooms: "",
       bathrooms: "",
       area_sqft: "",
+      unit: "",
       property_type: "",
       status: "",
       images: [],
@@ -96,6 +98,7 @@ export function AddPropertyDialog({ open, onOpenChange, onAdd }: AddPropertyDial
       if (data.bedrooms) formData.append("bedrooms", data.bedrooms);
       if (data.bathrooms) formData.append("bathrooms", data.bathrooms);
       if (data.area_sqft) formData.append("area_sqft", data.area_sqft);
+      if (data.unit) formData.append("unit", data.unit);
 
       if (data.images && data.images.length > 0) {
         data.images.forEach((file) => formData.append("images", file));
@@ -178,7 +181,7 @@ export function AddPropertyDialog({ open, onOpenChange, onAdd }: AddPropertyDial
                   <FormItem>
                     <FormLabel>Location</FormLabel>
                     <FormControl>
-                      <Input placeholder="New York, NY" {...field} />
+                      <Input placeholder="New York" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -186,7 +189,7 @@ export function AddPropertyDialog({ open, onOpenChange, onAdd }: AddPropertyDial
               />
             </div>
 
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-1">
               <FormField
                 control={form.control}
                 name="bedrooms"
@@ -218,10 +221,31 @@ export function AddPropertyDialog({ open, onOpenChange, onAdd }: AddPropertyDial
                 name="area_sqft"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Area (sqft)</FormLabel>
-                    <FormControl>
-                      <Input type="number" placeholder="2000" {...field} />
-                    </FormControl>
+                    <FormLabel>Area</FormLabel>
+                    <div className="flex gap-1">
+                      <FormControl className="flex-1">
+                        <Input type="number" placeholder="Enter area" {...field} />
+                      </FormControl>
+                      <FormField
+                        control={form.control}
+                        name="unit"
+                        render={({ field: unitField }) => (
+                          <FormControl>
+                            <Select onValueChange={unitField.onChange} value={unitField.value}>
+                              <SelectTrigger className="w-[90px]">
+                                <SelectValue placeholder="Unit" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="sqft">sq.ft</SelectItem>
+                                <SelectItem value="sqmeter">sq.m</SelectItem>
+                                <SelectItem value="sqyard">sq.yd</SelectItem>
+                                <SelectItem value="acre">Acre</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                        )}
+                      />
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -245,6 +269,8 @@ export function AddPropertyDialog({ open, onOpenChange, onAdd }: AddPropertyDial
                         <SelectItem value="Residential">Residential</SelectItem>
                         <SelectItem value="Commercial">Commercial</SelectItem>
                         <SelectItem value="Industrial">Industrial</SelectItem>
+                        <SelectItem value="Farm House">Farm House</SelectItem>
+                        <SelectItem value="Agricultural Land">Agricultural Land</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />

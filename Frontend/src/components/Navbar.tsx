@@ -31,8 +31,12 @@ const Navbar: React.FC = () => {
     return location.pathname === path ? "text-cyan-400" : "hover:text-gray-300 transition";
   };
 
+  const propertyPaths = ["/filter", "/Residential", "/Commercial", "/Industrial", "/Farm House", "/Agricultural Land"];
+  const currentPath = decodeURIComponent(location.pathname);
+  const isPropertyRoute = propertyPaths.includes(currentPath);
+
   const getDropdownLinkClass = (path: string) => {
-    return location.pathname + location.search === path
+    return currentPath === path
       ? "block px-4 py-2 bg-gray-700 text-cyan-400" 
       : "block px-4 py-2 hover:bg-gray-700"; 
   };
@@ -63,7 +67,7 @@ const Navbar: React.FC = () => {
 
           <div className="relative" ref={dropdownRef}>
             <button
-              className={`focus:outline-none flex items-center gap-1 transition ${location.pathname === "/filter" ? "text-cyan-400" : "hover:text-gray-300"
+              className={`focus:outline-none flex items-center gap-1 transition ${isPropertyRoute ? "text-cyan-400" : "hover:text-gray-300"
                 }`}
               onClick={() => setIsDropdownOpen((prev) => !prev)}
             >
@@ -73,31 +77,51 @@ const Navbar: React.FC = () => {
             {isDropdownOpen && (
               <div className="absolute left-0 mt-2 w-48 bg-gray-800 text-white rounded shadow-lg border border-gray-700">
                 <Link
-                  to="/filter?type=Residential"
-                  className={getDropdownLinkClass("/filter?type=Residential")}
+                  to="/Residential"
+                  className={getDropdownLinkClass("/Residential")}
                   onClick={() => setIsDropdownOpen(false)}
                 >
                   Residential
                 </Link>
                 <Link
-                  to="/filter?type=Commercial"
-                  className={getDropdownLinkClass("/filter?type=Commercial")}
+                  to="/Commercial"
+                  className={getDropdownLinkClass("/Commercial")}
                   onClick={() => setIsDropdownOpen(false)}
                 >
                   Commercial
                 </Link>
                 <Link
-                  to="/filter?type=Industrial"
-                  className={getDropdownLinkClass("/filter?type=Industrial")}
+                  to="/Industrial"
+                  className={getDropdownLinkClass("/Industrial")}
                   onClick={() => setIsDropdownOpen(false)}
                 >
                   Industrial
+                </Link>
+                 <Link
+                  to="/Farm House"
+                  className={getDropdownLinkClass("/Farm House")}
+                  onClick={() => {
+                    setIsDropdownOpen(false);
+                    setIsMobileMenuOpen(false);
+                  }}
+                >
+                  Farm House
+                </Link>
+                <Link
+                  to="/Agricultural Land"
+                  className={getDropdownLinkClass("/Agricultural Land")}
+                  onClick={() => {
+                    setIsDropdownOpen(false);
+                    setIsMobileMenuOpen(false);
+                  }}
+                >
+                  Agricultural Land
                 </Link>
               </div>
             )}
           </div>
 
-          <Link to="/projects" className={getLinkClass("/projects")}>Gallery</Link>
+          <Link to="/gallery" className={getLinkClass("/gallery")}>Gallery</Link>
           <Link to="/blogs" className={getLinkClass("/blogs")}>Blogs</Link>
           <Link to="/contact" className={getLinkClass("/contact")}>Contact Us</Link>
         </nav>
@@ -123,7 +147,7 @@ const Navbar: React.FC = () => {
 
           <div className="relative" ref={dropdownRef}>
             <button
-              className={`focus:outline-none flex items-center gap-1 transition w-full text-left ${location.pathname === "/filter" ? "text-cyan-400" : "hover:text-gray-300"
+              className={`focus:outline-none flex items-center gap-1 transition w-full text-left ${isPropertyRoute ? "text-cyan-400" : "hover:text-gray-300"
                 }`} onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             >
               Properties ▾
@@ -132,8 +156,8 @@ const Navbar: React.FC = () => {
             {isDropdownOpen && (
               <div className="absolute left-0 mt-2 w-48 bg-gray-800 text-white rounded shadow-lg border border-gray-700">
                 <Link
-                  to="/filter?type=Residential"
-                  className={getDropdownLinkClass("/filter?type=Residential")}
+                  to="/Residential"
+                  className={getDropdownLinkClass("/Residential")}
                   onClick={() => {
                     setIsDropdownOpen(false);
                     setIsMobileMenuOpen(false);
@@ -142,8 +166,8 @@ const Navbar: React.FC = () => {
                   Residential
                 </Link>
                 <Link
-                  to="/filter?type=Commercial"
-                  className={getDropdownLinkClass("/filter?type=Commercial")}
+                  to="/Commercial"
+                  className={getDropdownLinkClass("/Commercial")}
                   onClick={() => {
                     setIsDropdownOpen(false);
                     setIsMobileMenuOpen(false);
@@ -152,8 +176,8 @@ const Navbar: React.FC = () => {
                   Commercial
                 </Link>
                 <Link
-                  to="/filter?type=Industrial"
-                  className={getDropdownLinkClass("/filter?type=Industrial")}
+                  to="/Industrial"
+                  className={getDropdownLinkClass("/Industrial")}
                   onClick={() => {
                     setIsDropdownOpen(false);
                     setIsMobileMenuOpen(false);
@@ -161,12 +185,32 @@ const Navbar: React.FC = () => {
                 >
                   Industrial
                 </Link>
+                <Link
+                  to="/Farm House"
+                  className={getDropdownLinkClass("/Farm House")}
+                  onClick={() => {
+                    setIsDropdownOpen(false);
+                    setIsMobileMenuOpen(false);
+                  }}
+                >
+                  Farm House
+                </Link>
+                <Link
+                  to="/Agricultural Land"
+                  className={getDropdownLinkClass("/Agricultural Land")}
+                  onClick={() => {
+                    setIsDropdownOpen(false);
+                    setIsMobileMenuOpen(false);
+                  }}
+                >
+                  Agricultural Land
+                </Link>
               </div>
             )}
           </div>
           <Link
-            to="/projects"
-            className={`block ${getLinkClass("/projects")}`}
+            to="/gallery"
+            className={`block ${getLinkClass("/gallery")}`}
             onClick={() => setIsMobileMenuOpen(false)}
           >
             Gallery

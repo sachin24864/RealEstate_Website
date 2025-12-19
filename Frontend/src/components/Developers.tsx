@@ -11,7 +11,7 @@ const logos: string[] = [
   '/assets/gallery/devlopers/15.png',
   '/assets/gallery/devlopers/16.png',
   '/assets/gallery/devlopers/17.png',
-  '/assets/gallery/devlopers/19.png',
+  '/assets/gallery/devlopers/m2k.jpeg',
   '/assets/gallery/devlopers/20.png',
   '/assets/gallery/devlopers/22.png',
   '/assets/gallery/devlopers/23.png',
@@ -20,8 +20,7 @@ const logos: string[] = [
   '/assets/gallery/devlopers/BPTP.png',
   '/assets/gallery/devlopers/silverglades.png',
   '/assets/gallery/devlopers/Omaxe.png',
-  '/assets/gallery/devlopers/Zak.png',
-];
+  '/assets/gallery/devlopers/chintels.png',];
 
 const Developers: React.FC = () => {
   return (

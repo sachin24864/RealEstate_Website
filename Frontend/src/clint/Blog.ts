@@ -16,6 +16,29 @@ export class BlogClint extends Client {
         }
     }
 
+    async getBlogById(id: string) {
+        try {
+            const res = await this.request("GET", `/api/admin/blog/${id}`);
+            return res.data;
+        } catch (error) {
+            console.error("getBlogById error:", error);
+            throw error;
+        }
+    }
+
+    async updateBlog(id: string, data: FormData) {
+        try {
+            const res = await this.request("PUT", `/api/admin/blog/${id}`, {
+                data,
+                headers: { "Content-Type": "multipart/form-data" },
+                withCredentials: true,
+            });
+            return res.data;
+        } catch (error) {
+            console.error("updateBlog error:", error);
+            throw error;
+        }
+    }
     async createBlog(data: FormData) {
         try {
             const res = await this.request("POST", "/api/admin/blog", {

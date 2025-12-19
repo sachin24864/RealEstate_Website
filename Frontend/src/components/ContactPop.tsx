@@ -26,10 +26,11 @@ import { toast } from "sonner";
 
 const contactSchema = z.object({
     FullName: z.string().min(1, "Full name is required"),
-    Email: z.string().email("Invalid email address"),
+    Email: z.string().optional(),
+    // .email("Invalid email address"),
     Phone_number: z.string().min(10, "Please enter a valid phone number"),
     Subject: z.string().optional(),
-    messsage: z.string().min(1, "Message is required"),
+    // messsage: z.string().min(1, "Message is required"),
 });
 
 type ContactFormData = z.infer<typeof contactSchema>;
@@ -50,7 +51,6 @@ export function ContactPop({ open, onOpenChange, initialSubject }: ContactDialog
             Email: "",
             Phone_number: "",
             Subject: initialSubject || "",
-            messsage: "",
         },
     });
 
@@ -112,7 +112,7 @@ export function ContactPop({ open, onOpenChange, initialSubject }: ContactDialog
                                     <FormItem>
                                         <FormLabel>Email</FormLabel>
                                         <FormControl>
-                                            <Input type="email" placeholder="ABC.doe@example.com" {...field} className="border-gray-300" />
+                                            <Input type="email" placeholder="ABC@example.com" {...field} className="border-gray-300" />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -125,7 +125,7 @@ export function ContactPop({ open, onOpenChange, initialSubject }: ContactDialog
                                     <FormItem>
                                         <FormLabel>Phone Number</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="+91 98765 43210" {...field} className="border-gray-300" />
+                                            <Input placeholder="+91 00000 00000" {...field} className="border-gray-300" />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -147,7 +147,7 @@ export function ContactPop({ open, onOpenChange, initialSubject }: ContactDialog
                             )}
                         />
 
-                        <FormField
+                        {/* <FormField
                             control={form.control}
                             name="messsage"
                             render={({ field }) => (
@@ -159,14 +159,14 @@ export function ContactPop({ open, onOpenChange, initialSubject }: ContactDialog
                                     <FormMessage />
                                 </FormItem>
                             )}
-                        />
+                        /> */}
 
                         <div className="flex justify-end space-x-2 pt-4">
                             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
                                 Cancel
                             </Button>
                             <Button type="submit" disabled={isSubmitting}>
-                                {isSubmitting ? "Sending..." : "Send Message"}
+                                {isSubmitting ? "Sending..." : "Send Query"}
                             </Button>
                         </div>
                     </form>

@@ -51,10 +51,10 @@ const Hero: React.FC = () => {
 
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4">
         <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4">
-          Find Your Dream Home
+          Find Your Dream Property
         </h1>
         <p className="text-base sm:text-lg md:text-2xl mb-6">
-          Explore futuristic living spaces tailored for you
+          Explore futuristic property tailored for you
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center mt-4 w-full px-2 sm:px-4">
@@ -124,7 +124,7 @@ const Hero: React.FC = () => {
               </div>
               <div className="ml-10">
                 <p className="font-medium mb-2">PROJECT TYPE</p>
-                {["Residential", "Commercial", "Industrial"].map((option) => (
+                {["Residential", "Commercial", "Industrial", "Farm House", "Agricultural Land"].map((option) => (
                   <label
                     key={option}
                     className="flex items-center gap-2 mb-1 hover:cursor-pointer"

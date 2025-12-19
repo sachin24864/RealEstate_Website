@@ -27,11 +27,34 @@ import {
 } from '@ant-design/icons';
 import type { CarouselRef } from 'antd/es/carousel';
 import { propertyClint } from '@/store';
+
+
 // --- Destructure Antd Components for cleaner code ---
 const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+
+// helper to display a friendly unit label
+const formatUnitLabel = (u?: string) => {
+    if (!u) return "Sq. Ft.";
+    switch (u.toLowerCase()) {
+        case "sqft":
+            return "Sq. Ft.";
+        case "sqmeter":
+            return "Sq. M";
+        case "sqyard":
+            return "Sq. Yd";
+        case "acre":
+            return "Acre";
+        default:
+            // If already a readable string, return as-is
+            return u;
+    }
+};
+
+
 
 // 1. Define a TypeScript interface for your data
 interface Property {
@@ -43,6 +66,7 @@ interface Property {
     Beds: number;
     Baths: number;
     area_sqft: number;
+    unit: string;
     Status: string;
     Images: string[];
     createdAt: string;
@@ -179,8 +203,8 @@ const PropertyPage: React.FC = () => {
                                     <div className="flex items-center space-x-4">
                                         <AreaChartOutlined className="text-3xl text-cyan-500" />
                                         <div>
-                                            <Text  className="block text-base text-white">Project Size</Text>
-                                            <Text strong className="text-base text-white">{property.area_sqft} Sq. Ft.</Text>
+                                            <Text className="block text-base text-white">Project Size</Text>
+                                            <Text strong className="text-base text-white">{property.area_sqft} {property.unit}</Text>
                                         </div>
                                     </div>
                                 </Card>
@@ -189,7 +213,7 @@ const PropertyPage: React.FC = () => {
                                     <div className="flex items-center space-x-4">
                                         <HomeOutlined className="text-3xl text-cyan-500" />
                                         <div>
-                                            <Text  className="block text-base text-white">Properties for Sale</Text>
+                                            <Text className="block text-base text-white">Properties for Sale</Text>
                                             <Text strong className="text-base text-white">in {property.title}</Text>
                                         </div>
                                     </div>

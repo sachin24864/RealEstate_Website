@@ -15,7 +15,27 @@ const blogSchema = new mongoose.Schema(
             type: String, 
             required: true,
         },
+        // SEO Fields
+        slug: {
+            type: String,
+            unique: true,
+            sparse: true,
+            trim: true,
+        },
+        metaTitle: {
+            type: String,
+            trim: true,
+        },
+        metaDescription: {
+            type: String,
+            trim: true,
+        },
+        metaKeywords: {
+            type: String,
+            trim: true,
+        },
     },
+
     { timestamps: true }
 );
 

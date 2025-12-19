@@ -7,17 +7,16 @@ interface StatItem {
 }
 
 const statsRow1: StatItem[] = [
-  { value: '30,000+', label: 'Happy Customers' },
-  { value: '55 Million', label: 'sq.ft. Area Sold' },
-  { value: '600+', label: 'Skilled Professionals' },
-  { value: '1200+', label: 'Channel Partners' },
+  { value: '10,000+', label: 'Happy Customers' },
+  { value: '25 Million', label: 'sq.ft. Area Sold' },
+  { value: '200+', label: 'Skilled Professionals' },
+  { value: '500+', label: 'Channel Partners' },
 ];
 
 const statsRow2: StatItem[] = [
-  { value: '32,750+', label: 'Transactions' },
-  { value: '27,500 CR', label: 'Loan Disbursed' },
-  { value: '1 Lakh CR+', label: 'Worth Property Sold' },
-  { value: '150+', label: 'Projects Onboard' },
+  { value: '10,000+', label: 'Transactions' },
+  { value: '4 Lac+ sq.ft.', label: 'Leasing Space' },
+  { value: '100+', label: 'Projects Onboard' },
 ];
 
 interface StatStripProps {

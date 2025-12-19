@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { propertyClint } from "@/store";
 import { toast } from "sonner";
+import { addOrUpdateMeta, setTitle, setCanonical } from "@/lib/seo";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -22,7 +23,12 @@ const FilterProperties: React.FC = () => {
 
   const city = params.get("city");
   const status = params.get("status");
-  const type = params.get("type");
+  const queryType = params.get("type");
+
+  // derive type from path if not present (support /Residential, /Commercial, /Farm House, /Agricultural Land)
+  const pathSegment = decodeURIComponent(location.pathname.replace(/^\/+/, ""));
+  const allowedTypes = ["Residential", "Commercial", "Industrial", "Farm House", "Agricultural Land"];
+  const type = queryType || (allowedTypes.includes(pathSegment) ? pathSegment : null);
 
   const [properties, setProperties] = useState<Property[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -43,6 +49,27 @@ const FilterProperties: React.FC = () => {
 
     fetchFilteredProperties();
   }, [city, status, type]);
+
+  useEffect(() => {
+  const titleParts = ["Properties"];
+  if (city) titleParts.push(city);
+  if (type) titleParts.push(type);
+  const title = titleParts.join(" | ") + " — Naveen Associates";
+
+  const description = city
+    ? `Search properties in ${city}. Browse ${type || "all"} properties and find homes, investments and more.`
+    : `Browse properties and projects across locations. Find residential and commercial properties.`;
+
+  setTitle(title);
+  addOrUpdateMeta({ name: "description", content: description });
+  addOrUpdateMeta({ property: "og:title", content: title });
+  addOrUpdateMeta({ property: "og:description", content: description });
+  addOrUpdateMeta({ property: "og:url", content: window.location.href });
+  addOrUpdateMeta({ name: "twitter:card", content: "summary" });
+  addOrUpdateMeta({ name: "twitter:title", content: title });
+  addOrUpdateMeta({ name: "twitter:description", content: description });
+  setCanonical(window.location.href);
+}, [city, type]);
 
   return (
     <>
