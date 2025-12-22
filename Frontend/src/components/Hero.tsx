@@ -108,7 +108,7 @@ const Hero: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <p className="font-medium mb-2">PROPERTY STATUS</p>
-                {["Ready_to_Move", "Under_Construction", "New_Launch"].map(
+                {["Ready_to_Move", "Under_Construction", "New_Launch", "Rent", "Sell", "Lease"].map(
                   (option) => (
                     <label key={option} className="flex items-center gap-2 mb-1">
                       <input

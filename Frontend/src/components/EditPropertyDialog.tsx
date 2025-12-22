@@ -197,6 +197,9 @@ export const EditPropertyDialog: React.FC<EditPropertyDialogProps> = ({
                       <SelectItem value="Ready_to_Move">Ready to Move</SelectItem>
                       <SelectItem value="Under_Construction">Under Construction</SelectItem>
                       <SelectItem value="New_Launch">New Launch</SelectItem>
+                      <SelectItem value="Rent">Rent</SelectItem>
+                      <SelectItem value="Sell">Sell</SelectItem>
+                      <SelectItem value="Lease">Lease</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
