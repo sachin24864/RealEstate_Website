@@ -30,8 +30,6 @@ export class BlogClint extends Client {
         try {
             const res = await this.request("PUT", `/api/admin/blog/${id}`, {
                 data,
-                headers: { "Content-Type": "multipart/form-data" },
-                withCredentials: true,
             });
             return res.data;
         } catch (error) {

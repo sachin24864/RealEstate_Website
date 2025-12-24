@@ -16,11 +16,14 @@ const schema = new mongoose.Schema({
     bathrooms: Number,
     area_sqft: Number,
     unit: { type: String, default: "sqft" },
-    IsStatus: { type: Number, default: status.active },
     images: [{ type: String, required: true }],
     metaTitle: { type: String },
     metaDescription: { type: String },
+    metaTags: { type: String },
+    price_unit: { type: String },
+    subType: { type: String },
 }, { timestamps: true, });
+
 
 schema.index({ id: 1 }, { background: true, unique: true });
 const model = mongoose.model("Properties", schema);

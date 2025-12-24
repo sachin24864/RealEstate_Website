@@ -15,6 +15,7 @@ interface ProjectType {
   id: string;
   title: string;
   Price: string;
+  price_unit?: string;
   Location: string;
   Images: string[];
   Status?: string;
@@ -127,7 +128,7 @@ const Project: React.FC = () => {
                         <h3 className="text-xl font-bold mb-2">{project.title}</h3>
                         <div className="flex items-center gap-1 text-sm text-gray-700 mb-1">
                           <CurrencyRupeeIcon className="h-4 w-4 text-cyan-700" />
-                          <span>{project.Price}</span>
+                          <span>{project.Price} {project.price_unit}</span>
                         </div>
                         <div className="flex items-center gap-1 text-sm text-gray-700">
                           <MapPinIcon className="h-4 w-4 text-cyan-700" />

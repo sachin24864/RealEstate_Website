@@ -41,8 +41,8 @@ export default function Router() {
               <Route path="/Residential" element={<FilterProperties />} />
               <Route path="/Commercial" element={<FilterProperties />} />
               <Route path="/Industrial" element={<FilterProperties />} />
-              <Route path="/Farm House" element={<FilterProperties />} />
-              <Route path="/Agricultural Land" element={<FilterProperties />} />
+              <Route path="/Farm_House" element={<FilterProperties />} />
+              <Route path="/Agricultural_Land" element={<FilterProperties />} />
               <Route path="/login" element={<Login />} />
               <Route path="/blogs" element={<BlogPage />} />
               <Route path="/gallery" element={<Gallery />} />

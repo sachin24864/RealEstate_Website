@@ -23,7 +23,7 @@ export class PropertyClient extends Client {
     }
   }
 
-  async getFilteredProperties(params: { city?: string | null; status?: string | null; type?: string | null; }) {
+  async getFilteredProperties(params: { city?: string | null; status?: string | null; type?: string | null; subType?: string | null; }) {
     try {
       const queryParams = new URLSearchParams();
       if (params.city) {
@@ -34,6 +34,9 @@ export class PropertyClient extends Client {
       }
       if (params.type) {
         queryParams.append("type", params.type);
+      }
+      if (params.subType) {
+        queryParams.append("subType", params.subType);
       }
 
       const queryString = queryParams.toString();
@@ -47,6 +50,17 @@ export class PropertyClient extends Client {
     }
   }
 
+  async deleteUser(id: string) {
+    try {
+      const res = await this.request("DELETE", `/api/admin/users/${id}`, {
+        withCredentials: true,
+        });
+        return res.data;
+    } catch (error) {
+      console.error("deleteUser error:", error);
+      throw error;
+    }
+  }
   async getPropertyById(id: string) {
     try {
       const res = await this.request("GET", `/api/user/properties/${id}`);

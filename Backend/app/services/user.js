@@ -23,6 +23,11 @@ export const save = (saveObj) => {
     return new model(saveObj).save();
 }
 
+export const deleteOne = (criteria, options = {}) => {
+    options.lean = true;
+    return model.findOneAndDelete(criteria, options);
+};
+
 /**
  * 
  * @param {Array<import('mongoose').PipelineStage>} aggregateArray 

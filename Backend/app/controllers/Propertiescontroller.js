@@ -13,7 +13,9 @@ import path from "path";
 export const addProperties = async (req, res, next) => {
   try {
 
-    const { title, description, location, price, property_type, bedrooms, bathrooms, area_sqft, unit, statusmetaTitle, metaDescription } = req.body;
+    const { title, description, location, price, property_type, bedrooms, bathrooms, area_sqft,status, unit, metaTitle, 
+      metaDescription, metaTags, price_unit,subType
+     } = req.body;
     const imagePaths = req.files
       ? req.files.map((file) => `/${file.path.replace(/\\/g, "/").replace("public/", "")}`)
       : [];
@@ -32,7 +34,10 @@ export const addProperties = async (req, res, next) => {
       status,
       images: imagePaths,
       metaTitle: metaTitle || title,        // optional fallback
-  metaDescription: metaDescription || (description ? description.substring(0, 160) : ""),
+      metaDescription: metaDescription || (description ? description.substring(0, 160) : ""),
+      metaTags:metaTags,
+      price_unit: price_unit,
+      subType: subType
     };
 
     const property = await PropertiesServices.save(creationObj);
@@ -53,31 +58,41 @@ export const addProperties = async (req, res, next) => {
 // =============================
 export const getAllProperties = async (req, res, next) => {
   try {
-    const { city, status: queryStatus, type: queryType } = req.query;
-    const filter = { IsStatus: status.active };
+    const { city, status: queryStatus, type: queryType, subType: querySubType } = req.query;
+    const filter = {};
+    console.log("Received Query Params:", req.query);
 
+    /* ---------- CITY ---------- */
     if (city && city.trim()) {
       filter.location = { $regex: new RegExp(city.trim(), 'i') };
     }
 
+    /* ---------- STATUS ---------- */
     if (queryStatus && queryStatus.trim()) {
-      const statusArray = String(queryStatus)
-        .split(',')
-        .map(s => s.trim());
+      const statusArray = String(queryStatus).split(',').map(s => s.trim());
       if (statusArray.length > 0 && statusArray[0] !== "") {
         filter.status = { $in: statusArray.map(s => new RegExp(`^${s}$`, 'i')) };
       }
     }
 
+    /* ---------- PROPERTY TYPE ---------- */
     if (queryType && queryType.trim()) {
-      const typeArray = String(queryType)
-        .split(',')
-        .map(t => t.trim().replace(/_/g, ' '));
+      const typeArray = String(queryType).split(',').map(t => t.trim().replace(/_/g, ' '));
       if (typeArray.length > 0 && typeArray[0] !== "") {
         filter.property_type = { $in: typeArray.map(t => new RegExp(`^${t}$`, 'i')) };
       }
     }
-    console.log(filter);
+
+    /* ---------- SUB TYPE (FIXED) ---------- */
+    if (querySubType && querySubType.trim()) {
+      const subTypeArray = String(querySubType).split(',').map(s => s.trim());
+      if (subTypeArray.length > 0 && subTypeArray[0] !== "") {
+        // This matches the "subType" field in your MongoDB schema
+        filter.subType = { $in: subTypeArray.map(s => new RegExp(`^${s}$`, 'i')) };
+      }
+    }
+
+    console.log("Applied Filter:", filter);
     const properties = await PropertiesServices.find(filter);
 
     return res.json(
@@ -86,7 +101,9 @@ export const getAllProperties = async (req, res, next) => {
         title: property.title,
         Location: property.location,
         Price: property.price,
+        price_unit: property.price_unit || "",
         Type: property.property_type,
+        subType: property.subType,
         Beds: property.bedrooms,
         Baths: property.bathrooms,
         area_sqft: property.area_sqft,
@@ -136,19 +153,18 @@ export const getPropertyById = async (req, res, next) => {
     const id = req.params.id;
     const property = await PropertiesServices.findOne({
       _id: id,
-      IsStatus: status.active,
     });
 
     if (!property) {
       return res.status(404).json({ message: "Property not found or is not active" });
     }
-
-    return res.status(200).json({
+      return res.status(200).json({
       id: property._id,
       title: property.title,
       description: property.description,
       Location: property.location,
       Price: property.price,
+      price_unit: property.price_unit || "",
       Type: property.property_type,
       Beds: property.bedrooms,
       Baths: property.bathrooms,
@@ -157,6 +173,7 @@ export const getPropertyById = async (req, res, next) => {
       Status: property.status,
       Images: property.images || [],
       createdAt: property.createdAt,
+      subType: property.subType,
     });
   } catch (error) {
     console.error("GET /api/properties/:id error:", error);
@@ -177,7 +194,6 @@ export const getPic = async (req, res, next) => {
         title: property.title,
         Type: property.property_type,
         Images: property.images,
-        Status: property.IsStatus,
       }));
 
     return res.json(result);
@@ -194,7 +210,7 @@ export const deleteProperty = async (req, res, next) => {
     const id = req.params.id;
 
     // Find the active property
-    const property = await PropertiesServices.findOne({ _id: id, IsStatus: status.active });
+    const property = await PropertiesServices.findOne({ _id: id});
 
     if (!property) {
       return res.status(404).json({ error: "Property not found or already deleted" });
@@ -220,16 +236,7 @@ export const deleteProperty = async (req, res, next) => {
     }
 
     // Soft delete the property + clear images if you want
-    await PropertiesServices.updateOne(
-      { _id: id },
-      {
-        $set: {
-          IsStatus: status.deleted,
-          images: [], // optional: remove image references from DB too
-        },
-      }
-    );
-
+    await PropertiesServices.deleteOne({ _id: id });
     return res.json({ id, message: "Property deleted successfully" });
   } catch (error) {
     console.error("DELETE /api/properties/:id error:", error);
@@ -249,7 +256,6 @@ export const editProperty = async (req, res, next) => {
 
     const property = await PropertiesServices.findOne({
       _id: id,
-      IsStatus: { $ne: 0 },
     });
 
     if (!property) {
@@ -272,6 +278,7 @@ export const editProperty = async (req, res, next) => {
         description: updated.description,
         location: updated.location,
         price: updated.price,
+        price_unit: property.price_unit || "",
         property_type: updated.property_type,
         bedrooms: updated.bedrooms,
         bathrooms: updated.bathrooms,

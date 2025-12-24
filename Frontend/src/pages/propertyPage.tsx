@@ -62,6 +62,7 @@ interface Property {
     title: string;
     Location: string;
     Price: number;
+    price_unit: string;
     Type: string;
     Beds: number;
     Baths: number;
@@ -70,6 +71,7 @@ interface Property {
     Status: string;
     Images: string[];
     createdAt: string;
+    subType: string;
 }
 
 // 3. The Main Page Component
@@ -187,7 +189,7 @@ const PropertyPage: React.FC = () => {
                                 </Text>
 
                                 <Text className="text-3xl font-bold !text-white">
-                                    ₹ {property.Price} <span className="text-lg font-normal">Onwards</span>
+                                    ₹ {property.Price} <span className="text-lg font-normal">{property.price_unit}</span>
                                 </Text>
 
                                 {/* <div className="flex items-center space-x-2">
@@ -195,6 +197,12 @@ const PropertyPage: React.FC = () => {
                                 <Text className="text-red-500">5 ratings</Text>
                             </div> */}
 
+                                 <Text className="text-base !text-gray-300">
+                                    Property Type: <strong className="!text-white">{property.Type.replace('_', ' ')}</strong>
+                                </Text>
+                                 <Text className="text-base !text-gray-300">
+                                    Sub-type: <strong className="!text-white">{property.subType.replace('_', ' ')}</strong>
+                                </Text>
                                 <Text className="text-base !text-gray-300">
                                     Status: <strong className="!text-white">{property.Status.replace('_', ' ')}</strong>
                                 </Text>

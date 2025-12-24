@@ -120,7 +120,7 @@ export const deleteBlog = async (req, res) => {
 export const updateBlog = async (req, res) => {
     try {
         const { id } = req.params;
-        const { title, description, slug, metaTitle, metaDescription, metaKeywords, imageAlt } = req.body || {};
+        const { title, description, slug, metaTitle, metaDescription, metaKeywords, imageAlt } = req.body;
 
         const updateData = {};
         if (title) updateData.title = title;
@@ -130,7 +130,6 @@ export const updateBlog = async (req, res) => {
         if (metaDescription) updateData.metaDescription = metaDescription;
         if (metaKeywords) updateData.metaKeywords = metaKeywords;
         if (imageAlt) updateData.imageAlt = imageAlt;
-
         // If a new file uploaded, update image path and try to remove previous file
         if (req.file) {
             const imageUrl = `/${req.file.path.replace(/\\/g, "/").replace("public/", "")}`;

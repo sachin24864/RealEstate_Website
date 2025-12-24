@@ -7,8 +7,8 @@ import { sendContactInquiry } from "../libs/communication.js";
 
 export const AddUsersAndSendMessage = async (req, res, next) => {
   try {
-    const { FullName, Email, Phone_number, Subject, messsage } = req.body;
-    if (!FullName || !Email || !Phone_number || !Subject || !messsage) {
+    const { FullName, Email, Phone_number, Subject } = req.body;
+    if (!FullName || !Email || !Phone_number || !Subject) {
       return res.status(404).json({
         message: "All fields are required",
       });
@@ -19,7 +19,6 @@ export const AddUsersAndSendMessage = async (req, res, next) => {
       email: Email,
       phoneNumber: Phone_number,
       subject: Subject,
-      Message: messsage,
       role: role.users,
     };
 
@@ -37,6 +36,26 @@ export const AddUsersAndSendMessage = async (req, res, next) => {
     next(error);
   }
 }
+
+export const deleteUser = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      return res.status(400).json({ message: "User ID is required" });
+    }
+
+    const deletedUser = await UserServices.deleteOne(id);
+    if (!deletedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    console.error("DELETE /api/users/:id error:", error);
+    next(error);
+  }
+}
+
 
 export const getuser = async (req, res, next) => {
   try {

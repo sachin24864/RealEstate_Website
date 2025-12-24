@@ -146,12 +146,18 @@ const Blogs: React.FC = () => {
         if (imageAlt) formData.append("imageAlt", imageAlt);
 
         try {
+                console.log("1",formData);
+
             if (editingBlog) {
+                console.log(formData);
+
                 // Update flow - assumes blogClint.updateBlog(id, formData) exists
                 const res = await blogClint.updateBlog(editingBlog._id, formData);
                 // replace blog in list
                 setBlogs((prev) => prev.map((b) => (b._id === editingBlog._id ? res.blog : b)));
                 toast.success("Blog updated successfully.");
+                console.log("2",formData);
+
             } else {
                 // Create flow - assumes blogClint.createBlog(formData) exists and returns created blog
                 const res = await blogClint.createBlog(formData);

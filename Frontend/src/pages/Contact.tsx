@@ -201,12 +201,6 @@ const ContactPage: React.FC = () => {
                     </Col>
 
                     <Col span={24}>
-                      <Form.Item label="Your Message" name="messsage" rules={[{ required: true, message: "Please enter your message" }]}>
-                        <TextArea rows={4} placeholder="Write your message..." />
-                      </Form.Item>
-                    </Col>
-
-                    <Col span={24}>
                       <Button
                         type="primary"
                         htmlType="submit"

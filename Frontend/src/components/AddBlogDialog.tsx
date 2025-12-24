@@ -1,123 +1,200 @@
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { useState } from "react";
+import React, { useEffect, useState, useRef } from 'react';
+import { Card, Typography } from 'antd';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
+import { Link } from 'react-router-dom';
+const { Title, Paragraph } = Typography;
 import { blogClint } from "../store/index";
-
+import { Button } from "@/components/ui/button";
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "sonner";
-
-const blogSchema = z.object({
-    title: z.string().min(1, "Title is required").max(200),
-    description: z.string().min(1, "Description is required"),
-    image: z.any().refine((files) => files?.length == 1, "Image is required."),
-});
-
-type BlogFormData = z.infer<typeof blogSchema>;
+import { message } from "antd";
 
 interface AddBlogDialogProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    onAdd?: (newBlog: any) => void;
+    onAdd: (blog: any) => void;
 }
 
 export function AddBlogDialog({ open, onOpenChange, onAdd }: AddBlogDialogProps) {
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [imagePreview, setImagePreview] = useState<string | null>(null);
-
-    const form = useForm<BlogFormData>({
-        resolver: zodResolver(blogSchema),
-        defaultValues: {
-            title: "",
-            description: "",
-        },
+    const [formData, setFormData] = useState({
+        title: "",
+        description: "",
+        slug: "",
+        metaTitle: "",
+        metaDescription: "",
+        metaKeywords: "",
+        image: null as File | null,
     });
+    const [loading, setLoading] = useState(false);
 
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            const preview = URL.createObjectURL(file);
-            setImagePreview(preview);
-            form.setValue("image", e.target.files);
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            setFormData((prev) => ({ ...prev, image: e.target.files![0] }));
         }
     };
 
-    const onSubmit = async (data: BlogFormData) => {
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!formData.title || !formData.description || !formData.image) {
+            message.error("Title, description, and image are required.");
+            return;
+        }
+
+        setLoading(true);
         try {
-            setIsSubmitting(true);
-            const formData = new FormData();
-            formData.append("title", data.title);
-            formData.append("description", data.description);
-            if (data.image && data.image.length > 0) {
-                formData.append("image", data.image[0]);
-            }
+            const fd = new FormData();
+            fd.append("title", formData.title);
+            fd.append("description", formData.description);
+            fd.append("slug", formData.slug || "");
+            fd.append("metaTitle", formData.metaTitle || formData.title);
+            fd.append("metaDescription", formData.metaDescription || formData.description.substring(0, 160));
+            fd.append("metaKeywords", formData.metaKeywords || "");
+            fd.append("image", formData.image);
 
-            const response = await blogClint.createBlog(formData);
+            const res = await blogClint.createBlog(fd);
+            onAdd(res.blog);
+            message.success("Blog created successfully!");
 
-            toast.success(response.message || "Blog added successfully!");
-            if (onAdd && response.blog) onAdd(response.blog);
-
-            form.reset();
-            setImagePreview(null);
+            setFormData({
+                title: "",
+                description: "",
+                slug: "",
+                metaTitle: "",
+                metaDescription: "",
+                metaKeywords: "",
+                image: null,
+            });
             onOpenChange(false);
-        } catch (error: any) {
-            console.error(error);
-            toast.error("Failed to add blog: " + (error.message || "Unknown error"));
+        } catch (error) {
+            console.error("Error creating blog:", error);
+            message.error("Failed to create blog.");
         } finally {
-            setIsSubmitting(false);
+            setLoading(false);
         }
     };
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-lg">
+            <DialogContent className="max-w-2xl max-h-screen overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>Add New Blog Post</DialogTitle>
-                    <DialogDescription>
-                        Fill in the details to create a new blog post.
-                    </DialogDescription>
                 </DialogHeader>
 
-                <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                        <FormField control={form.control} name="title" render={({ field }) => (
-                            <FormItem><FormLabel>Title</FormLabel><FormControl><Input placeholder="Blog Title" {...field} /></FormControl><FormMessage /></FormItem>
-                        )} />
-                        <FormField control={form.control} name="description" render={({ field }) => (
-                            <FormItem><FormLabel>Description</FormLabel><FormControl><Textarea placeholder="Blog content..." {...field} /></FormControl><FormMessage /></FormItem>
-                        )} />
-                        <FormItem>
-                            <FormLabel>Blog Image</FormLabel>
-                            <FormControl><Input type="file" accept="image/*" onChange={handleImageChange} /></FormControl>
-                            {imagePreview && <img src={imagePreview} alt="Preview" className="w-full h-32 object-cover rounded-md mt-2" />}
-                            <FormMessage />
-                        </FormItem>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    {/* Blog Content */}
+                    <div>
+                        <Label htmlFor="title">Blog Title *</Label>
+                        <Input
+                            id="title"
+                            name="title"
+                            placeholder="Enter blog title"
+                            value={formData.title}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
 
-                        <div className="flex justify-end space-x-2 pt-4">
-                            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
-                            <Button type="submit" disabled={isSubmitting}>
-                                {isSubmitting ? "Adding..." : "Add Blog"}
-                            </Button>
+                    <div>
+                        <Label htmlFor="description">Blog Description *</Label>
+                        <Textarea
+                            id="description"
+                            name="description"
+                            placeholder="Enter blog description"
+                            value={formData.description}
+                            onChange={handleChange}
+                            required
+                            rows={4}
+                        />
+                    </div>
+
+                    <div>
+                        <Label htmlFor="image">Blog Image *</Label>
+                        <Input
+                            id="image"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileChange}
+                            required
+                        />
+                    </div>
+
+                    {/* SEO Fields */}
+                    <div className="border-t pt-4">
+                        <h3 className="font-semibold mb-3">SEO Settings</h3>
+
+                        <div>
+                            <Label htmlFor="slug">URL Slug (auto-generated if empty)</Label>
+                            <Input
+                                id="slug"
+                                name="slug"
+                                placeholder="blog-url-slug"
+                                value={formData.slug}
+                                onChange={handleChange}
+                            />
+                            <p className="text-xs text-gray-500 mt-1">e.g., my-blog-post-title</p>
                         </div>
-                    </form>
-                </Form>
+
+                        <div>
+                            <Label htmlFor="metaTitle">Meta Title (for search engines)</Label>
+                            <Input
+                                id="metaTitle"
+                                name="metaTitle"
+                                placeholder={formData.title || "Enter meta title"}
+                                value={formData.metaTitle}
+                                onChange={handleChange}
+                                maxLength={60}
+                            />
+                            <p className="text-xs text-gray-500 mt-1">{formData.metaTitle.length}/60 characters</p>
+                        </div>
+
+                        <div>
+                            <Label htmlFor="metaDescription">Meta Description (for search engines)</Label>
+                            <Textarea
+                                id="metaDescription"
+                                name="metaDescription"
+                                placeholder={formData.description.substring(0, 160) || "Enter meta description"}
+                                value={formData.metaDescription}
+                                onChange={handleChange}
+                                maxLength={160}
+                                rows={3}
+                            />
+                            <p className="text-xs text-gray-500 mt-1">{formData.metaDescription.length}/160 characters</p>
+                        </div>
+
+                        <div>
+                            <Label htmlFor="metaKeywords">Meta Keywords (comma-separated)</Label>
+                            <Input
+                                id="metaKeywords"
+                                name="metaKeywords"
+                                placeholder="keyword1, keyword2, keyword3"
+                                value={formData.metaKeywords}
+                                onChange={handleChange}
+                            />
+                            <p className="text-xs text-gray-500 mt-1">Separate keywords with commas for SEO</p>
+                        </div>
+                    </div>
+
+                    <div className="flex justify-end gap-2">
+                        <Button variant="outline" onClick={() => onOpenChange(false)}>
+                            Cancel
+                        </Button>
+                        <Button type="submit" disabled={loading}>
+                            {loading ? "Creating..." : "Create Blog"}
+                        </Button>
+                    </div>
+                </form>
             </DialogContent>
         </Dialog>
     );

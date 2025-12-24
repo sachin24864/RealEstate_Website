@@ -13,6 +13,7 @@ interface Property {
   title: string;
   Location: string;
   Type: string;
+  subType: string;
   Status: string;
   Images: string[];
 }
@@ -24,10 +25,10 @@ const FilterProperties: React.FC = () => {
   const city = params.get("city");
   const status = params.get("status");
   const queryType = params.get("type");
+  const subType = params.get("subType"); 
 
-  // derive type from path if not present (support /Residential, /Commercial, /Farm House, /Agricultural Land)
   const pathSegment = decodeURIComponent(location.pathname.replace(/^\/+/, ""));
-  const allowedTypes = ["Residential", "Commercial", "Industrial", "Farm House", "Agricultural Land"];
+  const allowedTypes = ["Residential", "Commercial", "Industrial", "Farm_House", "Agricultural_Land"];
   const type = queryType || (allowedTypes.includes(pathSegment) ? pathSegment : null);
 
   const [properties, setProperties] = useState<Property[]>([]);
@@ -37,52 +38,41 @@ const FilterProperties: React.FC = () => {
     const fetchFilteredProperties = async () => {
       try {
         setIsLoading(true);
-        const data = await propertyClint.getFilteredProperties({ city, status, type });
+        // FIXED: Added subType to the API call parameters
+        const data = await propertyClint.getFilteredProperties({ city, status, type, subType });
         setProperties(data);
       } catch (error) {
         console.error("Error fetching filtered properties:", error);
-        toast.error("Failed to load properties for the selected filters.");
+        toast.error("Failed to load properties.");
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchFilteredProperties();
-  }, [city, status, type]);
+  }, [city, status, type, subType]); // FIXED: Added subType as dependency
 
   useEffect(() => {
-  const titleParts = ["Properties"];
-  if (city) titleParts.push(city);
-  if (type) titleParts.push(type);
-  const title = titleParts.join(" | ") + " — Naveen Associates";
-
-  const description = city
-    ? `Search properties in ${city}. Browse ${type || "all"} properties and find homes, investments and more.`
-    : `Browse properties and projects across locations. Find residential and commercial properties.`;
-
-  setTitle(title);
-  addOrUpdateMeta({ name: "description", content: description });
-  addOrUpdateMeta({ property: "og:title", content: title });
-  addOrUpdateMeta({ property: "og:description", content: description });
-  addOrUpdateMeta({ property: "og:url", content: window.location.href });
-  addOrUpdateMeta({ name: "twitter:card", content: "summary" });
-  addOrUpdateMeta({ name: "twitter:title", content: title });
-  addOrUpdateMeta({ name: "twitter:description", content: description });
-  setCanonical(window.location.href);
-}, [city, type]);
+    const titleParts = ["Properties"];
+    if (city) titleParts.push(city);
+    if (type) titleParts.push(type);
+    if (subType) titleParts.push(subType); // Add subType to SEO title
+    
+    const title = titleParts.join(" | ") + " — Naveen Associates";
+    setTitle(title);
+    setCanonical(window.location.href);
+  }, [city, type, subType]);
 
   return (
     <>
       <Navbar />
       <div className="min-h-screen bg-gray-800 text-white py-16 px-6">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-3xl font-bold mb-6 text-center">
-            Showing Properties
-          </h1>
+          <h1 className="text-3xl font-bold mb-6 text-center">Showing Properties</h1>
           <p className="text-center text-gray-300 mb-10">
-            City: <span className="font-semibold">{city || "All"}</span> | Status:{" "}
-            <span className="font-semibold">{status?.replace(/_/g, " ") || "Any"}</span> | Type:{" "}
-            <span className="font-semibold">{type || "All"}</span>
+            City: <span className="font-semibold">{city || "All"}</span> | 
+            Type: <span className="font-semibold">{type || "All"}</span> | 
+            Sub-Type: <span className="font-semibold">{subType || "All"}</span>
           </p>
 
           {isLoading ? (
@@ -91,21 +81,19 @@ const FilterProperties: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
               {properties.map((property) => (
                 <Link to={`/property/${property.id}`} key={property.id}>
-                  <div
-                    className="bg-gray-900 rounded-lg shadow-lg overflow-hidden h-full flex flex-col hover:scale-105 transform transition duration-300"
-                  >
+                  <div className="bg-gray-900 rounded-lg shadow-lg overflow-hidden h-full flex flex-col hover:scale-105 transform transition duration-300">
                     <img
                       src={`${BACKEND_URL}${property.Images[0]}`}
                       alt={property.title}
                       className="w-full h-48 object-contain bg-gray-900"
                     />
                     <div className="p-4 flex-grow flex flex-col">
-                      <h3 className="text-lg font-semibold">{property.title}</h3>
+                      <h3 className="text-lg font-semibold line-clamp-1">{property.title}</h3>
                       <p className="text-gray-400 text-sm mt-1">
-                        {property.Location.toUpperCase()} • {property.Type}
+                        {property.Location?.toUpperCase()} • {property.subType || property.Type}
                       </p>
                       <span className="mt-auto pt-2 inline-block text-sm font-medium text-cyan-400">
-                        {property.Status.replace(/_/g, " ")}
+                        {property.Status?.replace(/_/g, " ")}
                       </span>
                     </div>
                   </div>
@@ -113,9 +101,7 @@ const FilterProperties: React.FC = () => {
               ))}
             </div>
           ) : (
-            <p className="text-center text-gray-400 mt-20 text-lg">
-              No properties found for your filters.
-            </p>
+            <p className="text-center text-gray-400 mt-20 text-lg">No properties found for your filters.</p>
           )}
         </div>
       </div>

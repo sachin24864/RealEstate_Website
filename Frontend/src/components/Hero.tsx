@@ -46,7 +46,7 @@ const Hero: React.FC = () => {
         loop
         className="absolute top-0 left-0 w-full h-full object-cover z-0"
       >
-        <source src="/assets/gallery/bg/bg.mp4" type="video/mp4" />
+        <source src="/assets/gallery/bg/bgi.mp4" type="video/mp4" />
       </video>
 
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4">

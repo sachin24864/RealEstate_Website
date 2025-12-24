@@ -32,9 +32,6 @@ const schema = new mongoose.Schema({
     subject:{
         type:String,
     },
-    Message:{
-        type:String,
-    },
 }, { timestamps: true, });
 
 schema.index({ id: 1 }, { background: true, unique: true });

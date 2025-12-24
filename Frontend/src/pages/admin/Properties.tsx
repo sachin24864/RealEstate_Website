@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { AdminLayout } from "@/components/AdminLayout";
 import {
   Table,
   TableBody,
@@ -42,6 +41,9 @@ export default function Properties() {
           unit: p.unit || p.Unit || "",
           status: p.status || p.Status,
           images: p.images || [],
+          metaTitle: p.metaTitle || "",
+          metaTags: p.metaTags || "",
+          metaDescription: p.metaDescription || "",
           createdAt: p.createdAt,
         }));
 
@@ -70,11 +72,13 @@ export default function Properties() {
       unit: newProperty.unit || "",
       status: newProperty.status,
       images: newProperty.images || [],
+      metaTitle: newProperty.metaTitle || "",
+      metaTags: newProperty.metaTags || "",
+      metaDescription: newProperty.metaDescription || "",
       createdAt: newProperty.createdAt,
     };
 
     setProperties((prev) => [formattedProperty, ...prev]);
-    toast.success("Property added successfully!");
   };
 
   const handleDelete = async (id: string) => {
@@ -84,7 +88,6 @@ export default function Properties() {
       setProperties((prev) => prev.filter((prop) => prop.id !== id));
       toast.success("Property deleted");
     } catch (error) {
-      console.error("Delete error:", error);
       toast.error("Failed to delete property");
     } finally {
       setIsDeleting(null);
@@ -115,8 +118,7 @@ export default function Properties() {
             <p className="text-muted-foreground">Manage your property listings</p>
           </div>
           <Button onClick={() => setIsAddDialogOpen(true)}>
-            <Plus className="mr-2 h-4 w-4" />
-            Add Property
+            <Plus className="mr-2 h-4 w-4" /> Add Property
           </Button>
         </div>
 
@@ -137,51 +139,25 @@ export default function Properties() {
                       <TableHead>Location</TableHead>
                       <TableHead>Price</TableHead>
                       <TableHead>Type</TableHead>
-                      <TableHead>Beds</TableHead>
-                      <TableHead>Baths</TableHead>
-                      <TableHead>Size</TableHead>
                       <TableHead>Status</TableHead>
                       <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {properties.map((property: any) => (
+                    {properties.map((property) => (
                       <TableRow key={property.id}>
                         <TableCell className="font-medium">{property.title}</TableCell>
                         <TableCell>{property.location}</TableCell>
                         <TableCell>₹{property.price?.toLocaleString()}</TableCell>
                         <TableCell className="capitalize">{property.property_type}</TableCell>
-                        <TableCell>{property.bedrooms || "N/A"}</TableCell>
-                        <TableCell>{property.bathrooms || "N/A"}</TableCell>
                         <TableCell>
-                          {property.area_sqft ? `${property.area_sqft} ${property.unit || ""}` : "N/A"}
-                        </TableCell>
-                        <TableCell>
-                          <span
-                            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${property.status === "Ready_to_Move"
-                                ? "bg-green-100 text-green-800"
-                                : "bg-gray-100 text-gray-800"
-                              }`}
-                          >
+                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${property.status === "Ready_to_Move" ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800"}`}>
                             {property.status}
                           </span>
                         </TableCell>
                         <TableCell className="text-right flex justify-end space-x-2">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleEditClick(property)}
-                          >
-                            <Edit2 className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleDelete(property.id)}
-                            disabled={isDeleting === property.id}
-                          >
-                            <Trash2 className="h-4 w-4 text-destructive" />
-                          </Button>
+                          <Button variant="ghost" size="sm" onClick={() => handleEditClick(property)}><Edit2 className="h-4 w-4" /></Button>
+                          <Button variant="ghost" size="sm" onClick={() => handleDelete(property.id)} disabled={isDeleting === property.id}><Trash2 className="h-4 w-4 text-destructive" /></Button>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -189,26 +165,14 @@ export default function Properties() {
                 </Table>
               </div>
             ) : (
-              <div className="text-center py-8 text-muted-foreground">
-                No properties yet. Add your first property!
-              </div>
+              <div className="text-center py-8 text-muted-foreground">No properties yet.</div>
             )}
           </CardContent>
         </Card>
       </div>
 
-      <AddPropertyDialog
-        open={isAddDialogOpen}
-        onOpenChange={setIsAddDialogOpen}
-        onAdd={handleAddProperty}
-      />
-
-      <EditPropertyDialog
-        open={isEditDialogOpen}
-        onOpenChange={setIsEditDialogOpen}
-        property={editProperty}
-        onUpdate={handleUpdateProperty}
-      />
+      <AddPropertyDialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen} onAdd={handleAddProperty} />
+      <EditPropertyDialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen} property={editProperty} onUpdate={handleUpdateProperty} />
     </div>
   );
 }

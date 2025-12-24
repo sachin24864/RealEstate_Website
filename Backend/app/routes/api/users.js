@@ -18,6 +18,7 @@ router.get("/properties", getAllProperties);
 router.get("/properties/:id", getPropertyById);
 router.post("/contact", AddUsersAndSendMessage)
 
+
 router.get("/pic", getPic);
 
 export default router;

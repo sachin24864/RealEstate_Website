@@ -13,7 +13,7 @@ const router = Router();
 router.put("/properties/:id", checkauth, properties.editProperty);
 router.delete("/properties/:id", checkauth, properties.deleteProperty);
 router.get("/count", checkauth, properties.getcount);
-router.post("/properties", checkauth, propertyUpload.array("images", 5), properties.addProperties);
+router.post("/properties", checkauth, propertyUpload.array("images", 10), properties.addProperties);
 router.get("/users", checkauth, user.getuser);
 // Blog routes
 router.get('/blog', getAllBlogs);
@@ -26,5 +26,7 @@ router.post('/gallery', checkauth, galleryUpload.single('image'), gallery.upload
 router.get('/gallery', gallery.getAllGalleryImages); // public reading
 router.delete('/gallery/:id', checkauth, gallery.deleteGalleryImage);
 router.put('/gallery/:id', checkauth, gallery.updateGalleryImage);
+
+router.delete("/users/:id", user.deleteUser);
 
 export default router;
