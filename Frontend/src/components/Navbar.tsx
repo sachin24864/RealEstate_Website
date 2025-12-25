@@ -11,8 +11,14 @@ const Navbar: React.FC = () => {
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const location = useLocation();
 
-  const propertyTypes = ["Residential", "Commercial", "Industrial"];
-  const subTypeOptions = ["Plot", "Flat", "Apartment", "SCO Plots", "Space", "Land"];
+  // 1. Define the structured data for specific categories
+  const propertyData: Record<string, string[]> = {
+    Residential: ["Plot", "Flat", "Apartment"],
+    Commercial: ["SCO Plots", "Space"],
+    Industrial: ["Land"],
+  };
+
+  const propertyTypes = Object.keys(propertyData);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -68,13 +74,14 @@ const Navbar: React.FC = () => {
                       <ChevronRight size={14} />
                     </Link>
 
+                    {/* 2. Filtered Sub-Menu Logic */}
                     {activeSubMenu === type && (
-                      <div className="absolute left-full top-0 w-40 bg-gray-900 border border-gray-700">
-                        {subTypeOptions.map((sub) => (
+                      <div className="absolute left-full top-0 w-48 bg-gray-900 border border-gray-700 shadow-2xl">
+                        {propertyData[type].map((sub) => (
                           <Link
                             key={sub}
                             to={`/filter?type=${encodeURIComponent(type)}&subType=${encodeURIComponent(sub)}`}
-                            className="block px-4 py-2 hover:bg-cyan-600 transition"
+                            className="block px-4 py-2 hover:bg-cyan-600 transition text-sm"
                             onClick={() => setIsDropdownOpen(false)}
                           >
                             {sub}

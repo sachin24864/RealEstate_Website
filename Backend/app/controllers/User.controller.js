@@ -8,7 +8,7 @@ import { sendContactInquiry } from "../libs/communication.js";
 export const AddUsersAndSendMessage = async (req, res, next) => {
   try {
     const { FullName, Email, Phone_number, Subject } = req.body;
-    if (!FullName || !Email || !Phone_number || !Subject) {
+    if (!FullName || !Phone_number) {
       return res.status(404).json({
         message: "All fields are required",
       });
