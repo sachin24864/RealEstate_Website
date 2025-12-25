@@ -72,6 +72,7 @@ interface Property {
     Images: string[];
     createdAt: string;
     subType: string;
+    description: string;
 }
 
 // 3. The Main Page Component
@@ -244,14 +245,7 @@ const PropertyPage: React.FC = () => {
                         <Col span={24}>
                             <Card title={<Title level={3} className="!text-white">About {property.title}</Title>} className="bg-gray-900 border-gray-700">
                                 <Paragraph className="!text-gray-300">
-                                    Welcome to {property.title}, a premier {property.Type} development
-                                    located in the heart of {property.Location}. This project offers a
-                                    luxurious living experience with modern amenities and spacious units.
-                                </Paragraph>
-                                <Paragraph className="!text-gray-300">
-                                    This property is currently {property.Status.replace('_', ' ')} and
-                                    features units with {property.Beds} beds and {property.Baths} baths.
-                                    Explore a new standard of living with us, starting from just {property.area_sqft} Sq. Ft.
+                                  {property.description }
                                 </Paragraph>
                             </Card>
                         </Col>

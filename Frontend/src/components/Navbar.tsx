@@ -13,7 +13,7 @@ const Navbar: React.FC = () => {
 
   // 1. Define the structured data for specific categories
   const propertyData: Record<string, string[]> = {
-    Residential: ["Plot", "Flat", "Apartment"],
+    Residential: ["Plot", "Flat", "Apartment","Villa"],
     Commercial: ["SCO Plots", "Space"],
     Industrial: ["Land"],
   };
