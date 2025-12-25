@@ -19,6 +19,12 @@ const schema = new mongoose.Schema({
     images: [{ type: String, required: true }],
     metaTitle: { type: String },
     metaDescription: { type: String },
+    slug: {
+        type: String,
+        unique: true,
+        sparse: true,
+        trim: true,
+    },
     metaTags: { type: String },
     price_unit: { type: String },
     subType: { type: String },

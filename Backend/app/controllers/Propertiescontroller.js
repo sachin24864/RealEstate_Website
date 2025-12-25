@@ -14,7 +14,7 @@ export const addProperties = async (req, res, next) => {
   try {
 
     const { title, description, location, price, property_type, bedrooms, bathrooms, area_sqft,status, unit, metaTitle, 
-      metaDescription, metaTags, price_unit,subType
+      metaDescription, metaTags, price_unit,subType, slug
      } = req.body;
     const imagePaths = req.files
       ? req.files.map((file) => `/${file.path.replace(/\\/g, "/").replace("public/", "")}`)
@@ -37,7 +37,8 @@ export const addProperties = async (req, res, next) => {
       metaDescription: metaDescription || (description ? description.substring(0, 160) : ""),
       metaTags:metaTags,
       price_unit: price_unit,
-      subType: subType
+      subType: subType,
+      slug: slug
     };
 
     const property = await PropertiesServices.save(creationObj);
@@ -111,6 +112,7 @@ export const getAllProperties = async (req, res, next) => {
         Status: property.status,
         Images: property.images || [],
         createdAt: property.createdAt,
+        slug: property.slug || "",
       }))
     );
   } catch (error) {
@@ -173,6 +175,7 @@ export const getPropertyById = async (req, res, next) => {
       Images: property.images || [],
       createdAt: property.createdAt,
       subType: property.subType,
+      slug: property.slug || "",
     });
   } catch (error) {
     console.error("GET /api/properties/:id error:", error);
@@ -285,6 +288,7 @@ export const editProperty = async (req, res, next) => {
         status: updated.status,
         images: updated.images || [],
         updatedAt: updated.updatedAt,
+        slug: updated.slug || "",
       },
     });
   } catch (error) {
