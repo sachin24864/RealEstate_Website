@@ -241,7 +241,7 @@ export function AddPropertyDialog({ open, onOpenChange, onAdd }: AddPropertyDial
                     <FormControl><SelectTrigger><SelectValue placeholder="Select type" /></SelectTrigger></FormControl>
                     <SelectContent>
                       <SelectItem value="Plot">Plot</SelectItem>
-                      <SelectItem value="Flat">Flat</SelectItem>
+                      <SelectItem value="Flor">Flor</SelectItem>
                       <SelectItem value="Apartment">Apartment</SelectItem>
                       <SelectItem value="SCO Flats">SCO Flats</SelectItem>
                       <SelectItem value="Space">Space</SelectItem>
