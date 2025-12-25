@@ -183,7 +183,7 @@ const ContactPage: React.FC = () => {
                     </Col>
 
                     <Col xs={24} md={12}>
-                      <Form.Item label="Email Address" name="Email" rules={[{ required: true, message: "Please enter your email" }, { type: "email", message: "Enter a valid email" }]}>
+                      <Form.Item label="Email Address" name="Email" >
                         <Input placeholder="Enter your email" />
                       </Form.Item>
                     </Col>

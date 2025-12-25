@@ -123,7 +123,6 @@ export const getcount = async (req, res, next) => {
   try {
     const [propertiesCountResult, inquiriesCountResult] = await Promise.all([
       PropertiesServices.aggregate([
-        { $match: { IsStatus: status.active } },
         { $count: "totalProperties" }
       ]),
       UserServices.aggregate([
