@@ -30,6 +30,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import { SlowBuffer } from "buffer";
 
 const propertySchema = z.object({
   title: z.string().min(1, "Title is required").max(200),
@@ -48,6 +49,7 @@ const propertySchema = z.object({
   metaDescription: z.string().optional(),
   price_unit: z.string().min(1, "Price unit is required"),
   Sub_type: z.string().min(1, "Sub type is required"),
+  slug: z.string().optional(),
 });
 
 type PropertyFormData = z.infer<typeof propertySchema>;
@@ -81,6 +83,7 @@ export function AddPropertyDialog({ open, onOpenChange, onAdd }: AddPropertyDial
       metaDescription: "",
       price_unit: "",
       Sub_type: "",
+      slug: "",
     },
   });
 
@@ -110,6 +113,7 @@ export function AddPropertyDialog({ open, onOpenChange, onAdd }: AddPropertyDial
       formData.append("metaTitle", data.metaTitle || "");
       formData.append("metaTags", data.metaTags || "");
       formData.append("metaDescription", data.metaDescription || "");
+      formData.append("slug", data.slug || "");
 
       if (data.bedrooms) formData.append("bedrooms", data.bedrooms);
       if (data.bathrooms) formData.append("bathrooms", data.bathrooms);
@@ -117,6 +121,7 @@ export function AddPropertyDialog({ open, onOpenChange, onAdd }: AddPropertyDial
       if (data.unit) formData.append("unit", data.unit);
       if (data.price_unit) formData.append("price_unit", data.price_unit);
       if (data.Sub_type) formData.append("subType", data.Sub_type);
+      
 
       if (data.images && data.images.length > 0) {
         data.images.forEach((file) => formData.append("images", file));
@@ -241,6 +246,7 @@ export function AddPropertyDialog({ open, onOpenChange, onAdd }: AddPropertyDial
                       <SelectItem value="SCO Flats">SCO Flats</SelectItem>
                       <SelectItem value="Space">Space</SelectItem>
                       <SelectItem value="Land">Land</SelectItem>
+                      <SelectItem value="Villa">Villa</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -249,7 +255,7 @@ export function AddPropertyDialog({ open, onOpenChange, onAdd }: AddPropertyDial
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-                <FormField control={form.control} name="status" render={({ field }) => (
+              <FormField control={form.control} name="status" render={({ field }) => (
                 <FormItem>
                   <FormLabel>Status</FormLabel>
                   <Select onValueChange={field.onChange} value={field.value}>
@@ -280,8 +286,29 @@ export function AddPropertyDialog({ open, onOpenChange, onAdd }: AddPropertyDial
               <FormField control={form.control} name="metaDescription" render={({ field }) => (
                 <FormItem><FormLabel>Meta Description</FormLabel><FormControl><Textarea placeholder="Short SEO description" {...field} /></FormControl><FormMessage /></FormItem>
               )} />
-            </div>
+              <FormField
+                control={form.control}
+                name="slug"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>URL Slug</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="blog-url-slug"
+                        {...field}
+                        onChange={(e) => field.onChange(e.target.value)}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Auto-generated from title if left empty.
+                      Example: <code>my-blog-post-title</code>
+                    </p>
+                  </FormItem>
+                )}
+              />
 
+            </div>
             <FormItem>
               <FormLabel>Property Images (max 10)</FormLabel>
               <FormControl><Input type="file" multiple accept="image/*" onChange={handleImageChange} /></FormControl>

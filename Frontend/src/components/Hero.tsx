@@ -54,7 +54,7 @@ const Hero: React.FC = () => {
           Find Your Dream Property
         </h1>
         <p className="text-base sm:text-lg md:text-2xl mb-6">
-          Explore futuristic property tailored for you
+          Explore futuristic properties tailored for you
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center mt-4 w-full px-2 sm:px-4">
