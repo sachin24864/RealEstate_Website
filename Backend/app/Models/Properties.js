@@ -17,15 +17,21 @@ const schema = new mongoose.Schema({
     area_sqft: Number,
     unit: { type: String, default: "sqft" },
     images: [{ type: String, required: true }],
-    metaTitle: { type: String },
-    metaDescription: { type: String },
     slug: {
         type: String,
         unique: true,
-        sparse: true,
-        trim: true,
+        required: true,
+        index: true
     },
-    metaTags: { type: String },
+    metaTitle: {
+        type: String
+    },
+    metaDescription: {
+        type: String
+    },
+    metaTags: {
+        type: String
+    },
     price_unit: { type: String },
     subType: { type: String },
 }, { timestamps: true, });

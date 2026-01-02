@@ -110,6 +110,7 @@ interface BlogItem {
     title: string;
     description: string;
     image: string;
+    slug: string;
 }
 
 const truncate = (text: string | undefined, n = 150) =>
@@ -170,7 +171,7 @@ const Blog: React.FC = () => {
                     <div ref={scrollRef} className="flex overflow-x-auto scroll-smooth snap-x snap-mandatory gap-6 py-4 hide-scrollbar">
                         {blogItems.map((item) => (
                             <div key={item._id} className="snap-start flex-shrink-0 w-[320px]">
-                                <Link to={`/blog/${item._id}`}>
+                                <Link to={`/blog/${item.slug}`}>
                                     <Card
                                         hoverable
                                         className="bg-gray-700 border-gray-600 text-white h-full flex flex-col transform transition-transform duration-300 hover:-translate-y-2"

@@ -17,6 +17,7 @@ import BlogPage from "./pages/BlogPage";
 import ProtectedRoute from "./components/protacted";
 import { AdminLayout } from "./components/AdminLayout";
 import { AuthProvider } from "./store/app-store/AuthContext";
+import ImageBanner from "./components/ImageBanner";
 
 const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
 const Users = lazy(() => import("./pages/admin/Users"));
@@ -38,6 +39,7 @@ export default function Router() {
               <Route path="/about-us" element={<AboutPage />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/filter" element={<FilterProperties />} />
+              <Route path="/Al" element={<ImageBanner />} />
               <Route path="/Residential" element={<FilterProperties />} />
               <Route path="/Commercial" element={<FilterProperties />} />
               <Route path="/Industrial" element={<FilterProperties />} />
@@ -46,8 +48,9 @@ export default function Router() {
               <Route path="/login" element={<Login />} />
               <Route path="/blogs" element={<BlogPage />} />
               <Route path="/gallery" element={<Gallery />} />
-              <Route path="/property/:id" element={<PropertyPage />} />
-              <Route path="/blog/:id" element={<BlogOverview />} />
+              {/* <Route path="/property/:id" element={<PropertyPage />} /> */}
+              <Route path="/property/:slug" element={<PropertyPage />} />
+              <Route path="/blog/:slug" element={<BlogOverview />} />
 
 
               {/* Protected Admin Routes */}

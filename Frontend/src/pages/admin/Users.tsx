@@ -57,6 +57,7 @@ export default function Users() {
             id: item.id || item._id,
           }));
           setInquiries(formattedData);
+          console.log("Fetched inquiries:", formattedData);
         }
       } catch (error) {
         console.error(error);

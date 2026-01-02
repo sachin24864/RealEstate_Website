@@ -2,11 +2,12 @@ import { Router } from "express";
 import api from "./api/index.js";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
-import * as UserServices from "../services/user.js";
+import * as adminServices from "../services/admin.js";
 import { comparePassword, hashPassword } from "../middleware/hashPassword.js";
 import checkauth from "../middleware/Checkauth.js";
 import { role } from "../constants/index.js";
 import { sendPasswordResetEmail } from "../libs/communication.js"; 
+
 
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 const router = Router();
@@ -24,7 +25,7 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Email and password are required" });
     }
 
-    const user = await UserServices.findOne({ email });
+    const user = await adminServices.findOne({ email });
     if (!user) return res.status(404).json({ message: "User not found" });
 
     const isMatch = await comparePassword(password, user.password);
@@ -62,7 +63,7 @@ router.post("/forgot-password", async (req, res) => {
       return res.status(400).json({ message: "Email is required" });
     }
 
-    const user = await UserServices.findOne({ email, role: role.admin });
+    const user = await adminServices.findOne({ email, role: role.admin });
     if (!user) {
       return res.status(404).json({ message: "Admin user with this email not found" });
     }
@@ -70,7 +71,7 @@ router.post("/forgot-password", async (req, res) => {
     const newPassword = crypto.randomBytes(8).toString("hex");
     const hashedPassword = await hashPassword(newPassword);
 
-    await UserServices.updateOne({ _id: user._id }, { password: hashedPassword });
+    await adminServices.updateOne({ _id: user._id }, { password: hashedPassword });
 
     await sendPasswordResetEmail(user.email, newPassword);
 

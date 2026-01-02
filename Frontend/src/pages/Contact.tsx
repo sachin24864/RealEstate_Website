@@ -19,6 +19,8 @@ import {
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { mainClient } from "../store/index";
+import SEO from "@/components/SEO";
+
 
 
 const { Title, Text } = Typography;
@@ -44,6 +46,25 @@ const ContactPage: React.FC = () => {
 
   return (
     <>
+      <SEO
+        title="Contact Naveen Associates | Real Estate Agent in Gurugram"
+        description="Contact Naveen Associates, trusted real estate consultants in Sector 108 Gurugram. Call or visit our office."
+        url="https://naveenassociatesgroup.com/contact"
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "RealEstateAgent",
+          "name": "Naveen Associates",
+          "telephone": "9053188821",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "DP01 Tricolour Street, Sector 108",
+            "addressLocality": "Gurugram",
+            "addressRegion": "HR",
+            "addressCountry": "IN"
+          }
+        }}
+      />
+
       <Navbar />
       <Layout style={{ background: "#fff" }}>
         <div

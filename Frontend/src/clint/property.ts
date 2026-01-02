@@ -61,9 +61,9 @@ export class PropertyClient extends Client {
       throw error;
     }
   }
-  async getPropertyById(id: string) {
+  async getPropertyBySlug(slug: string) {
     try {
-      const res = await this.request("GET", `/api/user/properties/${id}`);
+      const res = await this.request("GET", `/api/user/properties/${slug}`);
       return res.data;
     }catch(error) {
       console.error("getProperty error:", error);

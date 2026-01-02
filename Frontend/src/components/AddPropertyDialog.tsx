@@ -29,8 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { toast } from "sonner";
-import { SlowBuffer } from "buffer";
+import { toast } from "sonner";;
 
 const propertySchema = z.object({
   title: z.string().min(1, "Title is required").max(200),
@@ -241,7 +240,7 @@ export function AddPropertyDialog({ open, onOpenChange, onAdd }: AddPropertyDial
                     <FormControl><SelectTrigger><SelectValue placeholder="Select type" /></SelectTrigger></FormControl>
                     <SelectContent>
                       <SelectItem value="Plot">Plot</SelectItem>
-                      <SelectItem value="Flor">Flor</SelectItem>
+                      <SelectItem value="Floor">Floor</SelectItem>
                       <SelectItem value="Apartment">Apartment</SelectItem>
                       <SelectItem value="SCO Flats">SCO Flats</SelectItem>
                       <SelectItem value="Space">Space</SelectItem>
@@ -277,9 +276,9 @@ export function AddPropertyDialog({ open, onOpenChange, onAdd }: AddPropertyDial
             {/* SEO Section */}
             <div className="border-t pt-4 mt-4 space-y-4">
               <h3 className="text-sm font-semibold text-muted-foreground uppercase">SEO Settings</h3>
-              <FormField control={form.control} name="metaTitle" render={({ field }) => (
+              {/* <FormField control={form.control} name="metaTitle" render={({ field }) => (
                 <FormItem><FormLabel>Meta Title</FormLabel><FormControl><Input placeholder="SEO Title" {...field} /></FormControl><FormMessage /></FormItem>
-              )} />
+              )} /> */}
               <FormField control={form.control} name="metaTags" render={({ field }) => (
                 <FormItem><FormLabel>Meta Tags</FormLabel><FormControl><Input placeholder="keywords separated by commas" {...field} /></FormControl><FormMessage /></FormItem>
               )} />
@@ -301,8 +300,7 @@ export function AddPropertyDialog({ open, onOpenChange, onAdd }: AddPropertyDial
                     </FormControl>
                     <FormMessage />
                     <p className="text-xs text-gray-500 mt-1">
-                      Auto-generated from title if left empty.
-                      Example: <code>my-blog-post-title</code>
+                     Slug has to be unique. If it same slug exists, property creation will fail.
                     </p>
                   </FormItem>
                 )}

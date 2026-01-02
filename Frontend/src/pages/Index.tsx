@@ -10,23 +10,32 @@ import Contact from './Contact';
 import Footer from '../components/Footer';
 import NumberSpeak from '../components/NumberSpeak';
 import Developers from '../components/Developers';
+import SEO from "../components/SEO";
+import ImageBanner from '@/components/ImageBanner';
+
 
 
 const Index = () => {
   return (
     <>
-     <Navbar/>
-            <Hero />
-            <About />
-            <Promises />
-            <Choose />
-            <Project/>
-            <NumberSpeak/>
-            <Developers/>
-             <Blog />
-            <Testimonial/>
-            <Footer/>
-       </>
+      <SEO
+        title="Naveen Associates | Best Property Dealer in Gurugram"
+        description="Naveen Associates is a renowned name in real estate in gurugram. We deal in different types of property in gurugram like commercial, residential, industrial etc."
+        url="https://naveenassociatesgroup.com/"
+      />
+      <Navbar />
+      <Hero />
+      <About />
+      <ImageBanner/>
+      <Promises />
+      <Choose />
+      <Project />
+      <NumberSpeak />
+      <Developers />
+      <Blog />
+      <Testimonial />
+      <Footer />
+    </>
   );
 };
 

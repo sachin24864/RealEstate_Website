@@ -1,4 +1,3 @@
-import { z } from "zod";
 import { Client } from './abstract';
 
 export class BlogClint extends Client {
@@ -16,9 +15,9 @@ export class BlogClint extends Client {
         }
     }
 
-    async getBlogById(id: string) {
+    async getBlogBySlug(slug: string) {
         try {
-            const res = await this.request("GET", `/api/admin/blog/${id}`);
+            const res = await this.request("GET", `/api/admin/blog/${slug}`);
             return res.data;
         } catch (error) {
             console.error("getBlogById error:", error);

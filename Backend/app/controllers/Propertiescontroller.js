@@ -13,9 +13,9 @@ import path from "path";
 export const addProperties = async (req, res, next) => {
   try {
 
-    const { title, description, location, price, property_type, bedrooms, bathrooms, area_sqft,status, unit, metaTitle, 
-      metaDescription, metaTags, price_unit,subType, slug
-     } = req.body;
+    const { title, description, location, price, property_type, bedrooms, bathrooms, area_sqft, status, unit, metaTitle,
+      metaDescription, metaTags, price_unit, subType, slug
+    } = req.body;
     const imagePaths = req.files
       ? req.files.map((file) => `/${file.path.replace(/\\/g, "/").replace("public/", "")}`)
       : [];
@@ -35,7 +35,7 @@ export const addProperties = async (req, res, next) => {
       images: imagePaths,
       metaTitle: metaTitle || title,        // optional fallback
       metaDescription: metaDescription || (description ? description.substring(0, 160) : ""),
-      metaTags:metaTags,
+      metaTags: metaTags,
       price_unit: price_unit,
       subType: subType,
       slug: slug
@@ -149,17 +149,17 @@ export const getcount = async (req, res, next) => {
   }
 };
 
-export const getPropertyById = async (req, res, next) => {
+export const getPropertyBySlug = async (req, res, next) => {
   try {
-    const id = req.params.id;
+    const slug = req.params.slug;
     const property = await PropertiesServices.findOne({
-      _id: id,
+      slug: slug,
     });
 
     if (!property) {
       return res.status(404).json({ message: "Property not found or is not active" });
     }
-      return res.status(200).json({
+    return res.status(200).json({
       id: property._id,
       title: property.title,
       description: property.description,
@@ -212,7 +212,7 @@ export const deleteProperty = async (req, res, next) => {
     const id = req.params.id;
 
     // Find the active property
-    const property = await PropertiesServices.findOne({ _id: id});
+    const property = await PropertiesServices.findOne({ _id: id });
 
     if (!property) {
       return res.status(404).json({ error: "Property not found or already deleted" });
@@ -296,3 +296,35 @@ export const editProperty = async (req, res, next) => {
     next(error);
   }
 };
+
+// SEO 
+const generateSlug = (text) =>
+  text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+
+export const createProperty = async (req, res) => {
+  const {
+    title,
+    metaTitle,
+    metaDescription,
+    metaTags,
+    slug
+  } = req.body;
+
+  const finalSlug = slug?.trim()
+    ? slug
+    : generateSlug(title);
+
+  const property = await Property.create({
+    ...req.body,
+    slug: finalSlug,
+    metaTitle: metaTitle || title,
+    metaDescription: metaDescription || req.body.description?.slice(0, 160),
+    metaTags: metaTags || ""
+  });
+
+  res.json({ property });
+};
+

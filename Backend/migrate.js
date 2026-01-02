@@ -2,24 +2,24 @@ import './app/config/env.js';
 import mongoose from './app/config/mongoose.js';
 import { role } from './app/constants/index.js';
 import { hashPassword } from './app/middleware/hashPassword.js'; // ✅ use correct import
-import userSchema from './app/Models/user.js';
+import AdminSchema from './app/Models/admin.js';
 
 async function genAdmin(email, password, name) {
   try {
     const passwordHash = await hashPassword(password);
 
-    const existingAdmin = await userSchema.findOne({ email });
+    const existingAdmin = await AdminSchema.findOne({ email });
     if (existingAdmin) {
       console.log(`⚠️ Admin with email ${email} already exists.`);
       process.exit(0);
     }
 
-    const user = await new userSchema({
+    const user = await new AdminSchema({
       name,
       email,
       password: passwordHash,
       role: role.admin,
-      phoneNumber:4185236412,
+      phoneNumber:9053188821,
       createdBy: null,
       updatedBy: null,
     }).save();
@@ -36,4 +36,4 @@ async function genAdmin(email, password, name) {
   }
 }
 
-genAdmin('admin@gmail.com', 'YourSecurePassword123', 'Admin');
+genAdmin('naveenassociatesgroup@gmail.com', '1234561243', 'Admin');

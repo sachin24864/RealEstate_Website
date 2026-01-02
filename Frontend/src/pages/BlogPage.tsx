@@ -4,6 +4,8 @@ import Footer from '@/components/Footer';
 import { Layout, Typography, Card, Row, Col, Spin } from 'antd';
 import { blogClint } from '@/store';
 import { Link } from "react-router-dom";
+import SEO from "@/components/SEO";
+
 
 const { Content } = Layout;
 const { Title, Paragraph } = Typography;
@@ -16,6 +18,7 @@ interface BlogItem {
     description: string;
     image: string;
     createdAt: string;
+    slug: string;
 }
 
 const BlogPage: React.FC = () => {
@@ -49,10 +52,10 @@ const BlogPage: React.FC = () => {
                 const data = await blogClint.getBlog();
                 setBlogs(data.blogs);
 
-               // Set page-level SEO meta
-            document.title = "Blog & News | Real Estate";
-            setMeta("description", "Read our latest blog posts about real estate trends, market insights, and tips.");
-            setCanonical(`${window.location.origin}/blogs`);
+                // Set page-level SEO meta
+                document.title = "Blog & News | Real Estate";
+                setMeta("description", "Read our latest blog posts about real estate trends, market insights, and tips.");
+                setCanonical(`${window.location.origin}/blogs`);
             } catch (error) {
                 console.error("Failed to fetch blogs:", error);
             } finally {
@@ -66,6 +69,11 @@ const BlogPage: React.FC = () => {
 
     return (
         <>
+            <SEO
+                title="Blog & News | Naveen Associates"
+                description="Read latest real estate news, property tips and market insights by Naveen Associates."
+                url="https://naveenassociatesgroup.com/blogs"
+            />
             <Navbar />
             <Layout className="bg-gray-900">
                 <div className="relative h-[50vh] flex items-center justify-center text-center text-white">
@@ -98,8 +106,8 @@ const BlogPage: React.FC = () => {
                                     //         <p className="text-xs text-gray-500 mt-4">{new Date(blog.createdAt).toLocaleDateString()}</p>
                                     //     </Card>
                                     // </Col>
-                                    <Col key={blog._id} xs={24} sm={12} lg={8}>
-                                        <Link to={`/blog/${blog._id}`} className="block">
+                                    <Col key={blog.slug} xs={24} sm={12} lg={8}>
+                                        <Link to={`/blog/${blog.slug}`} className="block">
                                             <Card
                                                 hoverable
                                                 className="bg-gray-800 border-gray-700 text-white h-full flex flex-col"

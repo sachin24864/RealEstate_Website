@@ -3,6 +3,9 @@ import { useParams } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import { ContactPop } from '@/components/ContactPop';
 import Footer from '@/components/Footer';
+import SEO from "../components/SEO";
+
+
 
 // --- Ant Design Imports ---
 import {
@@ -73,6 +76,8 @@ interface Property {
     createdAt: string;
     subType: string;
     description: string;
+    slug: string;
+    metaTitle: string;
 }
 
 // 3. The Main Page Component
@@ -81,22 +86,24 @@ const PropertyPage: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [isContactOpen, setIsContactOpen] = useState(false);
-    const { id } = useParams<{ id: string }>();
+    const { slug } = useParams<{ slug: string }>();
+
+
 
     // Ref to control the main image carousel
     const carouselRef = useRef<CarouselRef>(null);
 
     useEffect(() => {
         const loadData = async () => {
-            if (!id) {
-                setError('Property ID not found in URL.');
+            if (!slug) {
+                setError('Property slug not found in URL.');
                 setLoading(false);
                 return;
             }
 
             try {
                 setLoading(true);
-                const data = await propertyClint.getPropertyById(id);
+                const data = await propertyClint.getPropertyBySlug(slug);
                 setProperty(data);
             } catch (err) {
                 setError('Failed to fetch property data.');
@@ -106,7 +113,7 @@ const PropertyPage: React.FC = () => {
             }
         };
         loadData();
-    }, [id]);
+    }, [slug]);
 
     // Thumbnail click handler
     const handleThumbnailClick = (index: number) => {
@@ -139,6 +146,29 @@ const PropertyPage: React.FC = () => {
     // 6. Render the attractive page layout
     return (
         <>
+            <SEO
+                title={`${property.title} | Property in ${property.Location}`}
+                description={property.description?.slice(0, 155)}
+                url={`https://naveenassociatesgroup.com/property/${property.slug}`}
+                image={`${BACKEND_URL}${property.Images[0]}`}
+                schema={{
+                    "@context": "https://schema.org",
+                    "@type": "Residence",
+                    "name": property.title,
+                    "description": property.description,
+                    "address": {
+                        "@type": "PostalAddress",
+                        "addressLocality": property.Location,
+                        "addressCountry": "IN"
+                    },
+                    "offers": {
+                        "@type": "Offer",
+                        "priceCurrency": "INR",
+                        "price": property.Price
+                    }
+                }}
+            />
+
             <Navbar />
             <Layout className="bg-gray-800 pt-20">
                 <Content className="p-4 md:p-8 max-w-7xl mx-auto w-full">
@@ -198,10 +228,10 @@ const PropertyPage: React.FC = () => {
                                 <Text className="text-red-500">5 ratings</Text>
                             </div> */}
 
-                                 <Text className="text-base !text-gray-300">
+                                <Text className="text-base !text-gray-300">
                                     Property Type: <strong className="!text-white">{property.Type.replace('_', ' ')}</strong>
                                 </Text>
-                                 <Text className="text-base !text-gray-300">
+                                <Text className="text-base !text-gray-300">
                                     Sub-type: <strong className="!text-white">{property.subType.replace('_', ' ')}</strong>
                                 </Text>
                                 <Text className="text-base !text-gray-300">
@@ -245,7 +275,7 @@ const PropertyPage: React.FC = () => {
                         <Col span={24}>
                             <Card title={<Title level={3} className="!text-white">About {property.title}</Title>} className="bg-gray-900 border-gray-700">
                                 <Paragraph className="!text-gray-300">
-                                  {property.description }
+                                    {property.description}
                                 </Paragraph>
                             </Card>
                         </Col>

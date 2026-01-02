@@ -19,6 +19,7 @@ interface ProjectType {
   Location: string;
   Images: string[];
   Status?: string;
+  slug: string;
 }
 
 const Project: React.FC = () => {
@@ -108,7 +109,7 @@ const Project: React.FC = () => {
           >
             {projects.length > 0 ? (
               projects.map((project) => (
-                <Link to={`/property/${project.id}`} key={project.id}>
+                <Link to={`/property/${project.slug}`} key={project.slug}>
                   <div
                     className="snap-start min-w-[320px] h-[400px] bg-gray-100 rounded-xl shadow-md overflow-hidden flex flex-col"
                   >

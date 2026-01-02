@@ -19,7 +19,7 @@ interface BlogItem {
 }
 
 export default function BlogOverview() {
-  const { id } = useParams<{ id: string }>();
+  const { slug } = useParams<{ slug: string }>();
   const [blog, setBlog] = useState<BlogItem | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -92,10 +92,10 @@ export default function BlogOverview() {
     };
 
     const fetchBlog = async () => {
-      if (!id) return;
+      if (!slug) return;
       try {
         setLoading(true);
-        const res = await blogClint.getBlogById(id);
+        const res = await blogClint.getBlogBySlug(slug);
         const b: BlogItem | undefined = res.blog;
         if (!b) {
           setBlog(null);
@@ -161,7 +161,7 @@ export default function BlogOverview() {
       }
       document.title = previousTitle;
     };
-  }, [id]);
+  }, [slug]);
 
   const imgSrc =
     blog?.image && (blog.image.startsWith("http") ? blog.image : `${BACKEND_URL}${blog.image}`);

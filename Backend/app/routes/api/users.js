@@ -7,7 +7,8 @@ import {
   getcount,
   // getPropertiesByTypeAndStatus,
   getPic,
-  getPropertyById
+  getPropertyBySlug,
+
 } from "../../controllers/Propertiescontroller.js";
 import {AddUsersAndSendMessage} from "../../controllers/User.controller.js"
 
@@ -15,7 +16,7 @@ import {AddUsersAndSendMessage} from "../../controllers/User.controller.js"
 const router = express.Router();
 
 router.get("/properties", getAllProperties);
-router.get("/properties/:id", getPropertyById);
+router.get("/properties/:slug",getPropertyBySlug);
 router.post("/contact", AddUsersAndSendMessage)
 
 

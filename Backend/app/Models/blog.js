@@ -21,6 +21,7 @@ const blogSchema = new mongoose.Schema(
             unique: true,
             sparse: true,
             trim: true,
+            index: true,
         },
         metaTitle: {
             type: String,

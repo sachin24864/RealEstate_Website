@@ -4,7 +4,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { propertyClint } from "@/store";
 import { toast } from "sonner";
-import { addOrUpdateMeta, setTitle, setCanonical } from "@/lib/seo";
+import SEO from "@/components/SEO";
+
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -16,6 +17,7 @@ interface Property {
   subType: string;
   Status: string;
   Images: string[];
+  slug: string;
 }
 
 const FilterProperties: React.FC = () => {
@@ -52,16 +54,12 @@ const FilterProperties: React.FC = () => {
     fetchFilteredProperties();
   }, [city, status, type, subType]); // FIXED: Added subType as dependency
 
-  useEffect(() => {
-    const titleParts = ["Properties"];
-    if (city) titleParts.push(city);
-    if (type) titleParts.push(type);
-    if (subType) titleParts.push(subType); // Add subType to SEO title
-    
-    const title = titleParts.join(" | ") + " — Naveen Associates";
-    setTitle(title);
-    setCanonical(window.location.href);
-  }, [city, type, subType]);
+  <SEO
+  title={`Properties in ${city || "Gurugram"} ${type ? `| ${type}` : ""} ${subType ? `| ${subType}` : ""} | Naveen Associates`}
+  description={`Browse ${type || ""} ${subType || ""} properties in ${city || "Gurugram"}. Verified listings by Naveen Associates.`}
+  url={window.location.href}
+/>
+
 
   return (
     <>
@@ -80,7 +78,7 @@ const FilterProperties: React.FC = () => {
           ) : properties.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
               {properties.map((property) => (
-                <Link to={`/property/${property.id}`} key={property.id}>
+                <Link to={`/property/${property.slug}`} key={property.slug}>
                   <div className="bg-gray-900 rounded-lg shadow-lg overflow-hidden h-full flex flex-col hover:scale-105 transform transition duration-300">
                     <img
                       src={`${BACKEND_URL}${property.Images[0]}`}

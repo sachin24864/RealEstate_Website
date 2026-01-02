@@ -8,7 +8,7 @@ const gallerySchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
-      enum: ['Office Environment', 'Client Dealing'],
+      enum: ['Office Environment', 'Client Dealing', 'Home Banner'],
     },
   },
   { timestamps: true }

@@ -10,6 +10,7 @@ import { createBlog, getAllBlogs, deleteBlog, getBlogById, updateBlog } from '..
 
 const router = Router();
 
+// router.get("/property/slug/:slug", getPropertyBySlug);
 router.put("/properties/:id", checkauth, properties.editProperty);
 router.delete("/properties/:id", checkauth, properties.deleteProperty);
 router.get("/count", checkauth, properties.getcount);
