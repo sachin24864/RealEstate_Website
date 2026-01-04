@@ -104,7 +104,7 @@ const Hero: React.FC = () => {
         </button>
 
         {showFilters && (
-          <div className="mt-4 text-left text-white bg-white/20 backdrop-blur-md w-100 rounded-lg p-4 max-w-2xl">
+          <div className="mt-4 text-left text-white bg-white/20 backdrop-blur-md w-100 h-100 rounded-lg p-4 max-w-2xl">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <p className="font-medium mb-2">PROPERTY STATUS</p>
@@ -115,7 +115,7 @@ const Hero: React.FC = () => {
                         type="checkbox"
                         checked={status.includes(option)}
                         onChange={() => toggle("status", option)}
-                        className="accent-white"
+                        className="accent-black"
                       />
                       <span>{option.replace(/_/g, " ")}</span>
                     </label>
@@ -133,7 +133,7 @@ const Hero: React.FC = () => {
                       type="checkbox"
                       checked={type.includes(option)}
                       onChange={() => toggle("type", option)}
-                      className="accent-white"
+                      className="accent-black"
                     />
                     <span>{option}</span>
                   </label>
