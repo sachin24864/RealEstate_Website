@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
 import { propertyClint } from "../store/index";
+import { RichTextEditor } from "./RichTextEditor";
 
 import {
   Dialog,
@@ -34,6 +35,7 @@ import {
 const propertySchema = z.object({
   title: z.string().min(1, "Title is required").max(200),
   price: z.number().min(0, "Price must be positive"),
+  description: z.string().optional(),
   location: z.string().optional().nullable(),
   bedrooms: z.number().optional().nullable(),
   bathrooms: z.number().optional().nullable(),
@@ -64,6 +66,7 @@ export const EditPropertyDialog: React.FC<EditPropertyDialogProps> = ({
     defaultValues: {
       title: "",
       price: 0,
+      description: "",
       location: "",
       bedrooms: null,
       bathrooms: null,
@@ -80,6 +83,7 @@ export const EditPropertyDialog: React.FC<EditPropertyDialogProps> = ({
       form.reset({
         title: property.title,
         price: property.price,
+        description: property.description || "",
         location: property.location,
         bedrooms: property.bedrooms || null,
         bathrooms: property.bathrooms || null,
@@ -99,6 +103,7 @@ export const EditPropertyDialog: React.FC<EditPropertyDialogProps> = ({
       const payload = {
         price: data.price,
         status: data.status,
+        description: data.description,
         metaTitle: data.metaTitle,
         metaTags: data.metaTags,
         metaDescription: data.metaDescription,
@@ -153,6 +158,18 @@ export const EditPropertyDialog: React.FC<EditPropertyDialogProps> = ({
                       onChange={(e) => field.onChange(Number(e.target.value))}
                     />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl><RichTextEditor value={field.value || ""} onChange={field.onChange} /></FormControl>
                   <FormMessage />
                 </FormItem>
               )}

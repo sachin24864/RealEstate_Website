@@ -38,7 +38,7 @@ export default function Router() {
               <Route path="/" element={<Index />} />
               <Route path="/about-us" element={<AboutPage />} />
               <Route path="/contact" element={<Contact />} />
-              <Route path="/filter" element={<FilterProperties />} />
+              <Route path="/properties" element={<FilterProperties />} />
               <Route path="/Al" element={<ImageBanner />} />
               <Route path="/Residential" element={<FilterProperties />} />
               <Route path="/Commercial" element={<FilterProperties />} />

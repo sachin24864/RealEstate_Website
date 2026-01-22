@@ -68,7 +68,7 @@ const Navbar: React.FC = () => {
             onMouseEnter={() => setIsDropdownOpen(true)}
             onMouseLeave={() => { setIsDropdownOpen(false); setActiveSubMenu(null); }}
           >
-            <Link to="/filter" className="flex items-center gap-1 hover:text-cyan-400 transition">
+            <Link to="/properties" className="flex items-center gap-1 hover:text-cyan-400 transition">
               Properties ▾
             </Link>
 
@@ -90,7 +90,7 @@ const Navbar: React.FC = () => {
                         {propertyData[type].map((sub) => (
                           <Link
                             key={sub}
-                            to={`/filter?type=${encodeURIComponent(type)}&subType=${encodeURIComponent(sub)}`}
+                            to={`/properties?type=${encodeURIComponent(type)}&subType=${encodeURIComponent(sub)}`}
                             className="block px-4 py-2 hover:bg-cyan-600 transition text-sm"
                             onClick={() => setIsDropdownOpen(false)}
                           >
@@ -128,7 +128,7 @@ const Navbar: React.FC = () => {
           <div className="flex flex-col border-b border-gray-800 pb-3">
             <div className="flex justify-between items-center">
               {/* Click text to go to page */}
-              <Link to="/filter" onClick={closeMobileMenu} className="flex-1">Properties</Link>
+              <Link to="/properties" onClick={closeMobileMenu} className="flex-1">Properties</Link>
               {/* Click arrow to expand */}
               <button onClick={() => setMobilePropsExpanded(!mobilePropsExpanded)} className="p-2">
                 <ChevronDown className={`transition-transform ${mobilePropsExpanded ? "rotate-180" : ""}`} />
@@ -151,7 +151,7 @@ const Navbar: React.FC = () => {
                         {propertyData[type].map((sub) => (
                           <Link 
                             key={sub} 
-                            to={`/filter?type=${type}&subType=${sub}`} 
+                            to={`/properties?type=${type}&subType=${sub}`} 
                             onClick={closeMobileMenu}
                             className="text-gray-400 text-base"
                           >

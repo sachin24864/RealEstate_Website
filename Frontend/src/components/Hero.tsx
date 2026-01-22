@@ -35,7 +35,7 @@ const Hero: React.FC = () => {
     if (status.length > 0) params.append("status", status.join(","));
     if (type.length > 0) params.append("type", type.join(","));
 
-    navigate(`/filter?${params.toString()}`);
+    navigate(`/properties?${params.toString()}`);
   };
 
   return (

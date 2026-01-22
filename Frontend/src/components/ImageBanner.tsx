@@ -19,9 +19,9 @@ const ImageBanner: React.FC = () => {
     const fetchBanner = async () => {
       try {
         const response = await galleryClient.getImages("Home Banner");
-        const images: GalleryImage[] = response.images || [];
+        const images: GalleryImage[] = response?.images ?? [];
 
-        if (images.length > 0 && images[0].image) {
+        if (images.length > 0 && images[0]?.image) {
           setBannerImage(`${BACKEND_URL}${images[0].image}`);
         } else {
           setBannerImage(DUMMY_IMAGE);
@@ -37,14 +37,26 @@ const ImageBanner: React.FC = () => {
     fetchBanner();
   }, []);
 
-  if (loading) return null;
+  if (loading) {
+    return (
+      <div className="w-full h-[22vh] sm:h-[30vh] md:h-[45vh] bg-gray-200 animate-pulse" />
+    );
+  }
 
   return (
-    <section className="w-full">
+    <section className="w-full overflow-hidden">
       <img
         src={bannerImage}
         alt="Home Banner"
-        className="w-full h-[30vh] md:h-[45vh] object-cover"
+        loading="lazy"
+        className="
+          w-full
+          h-[22vh]        /* Mobile */
+          sm:h-[30vh]     /* Small tablets */
+          md:h-[45vh]     /* Desktop */
+          object-cover
+          object-center
+        "
         onError={(e) => {
           (e.currentTarget as HTMLImageElement).src = DUMMY_IMAGE;
         }}

@@ -274,9 +274,10 @@ const PropertyPage: React.FC = () => {
                     <Row className="mt-12">
                         <Col span={24}>
                             <Card title={<Title level={3} className="!text-white">About {property.title}</Title>} className="bg-gray-900 border-gray-700">
-                                <Paragraph className="!text-gray-300">
-                                    {property.description}
-                                </Paragraph>
+                                <div
+                                    className="!text-gray-300 prose prose-invert max-w-none [&_ol]:list-decimal [&_ul]:list-disc [&_ol]:pl-5 [&_ul]:pl-5 [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:mb-4 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:mb-3 [&_h3]:text-xl [&_h3]:font-medium [&_h3]:mb-2"
+                                    dangerouslySetInnerHTML={{ __html: property.description }}
+                                />
                             </Card>
                         </Col>
                     </Row>

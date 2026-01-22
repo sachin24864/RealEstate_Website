@@ -67,13 +67,13 @@ export default function BlogOverview() {
         if (m && !previousMetaHTML.includes(m.outerHTML)) m.remove();
       });
 
-      const ogKeys = ['og:title','og:description','og:image','og:url'];
+      const ogKeys = ['og:title', 'og:description', 'og:image', 'og:url'];
       ogKeys.forEach(k => {
         const m = document.head.querySelector(`meta[property="${k}"]`);
         if (m && !previousMetaHTML.includes(m.outerHTML)) m.remove();
       });
 
-      const twKeys = ['twitter:card','twitter:title','twitter:description','twitter:image'];
+      const twKeys = ['twitter:card', 'twitter:title', 'twitter:description', 'twitter:image'];
       twKeys.forEach(k => {
         const m = document.head.querySelector(`meta[name="${k}"]`);
         if (m && !previousMetaHTML.includes(m.outerHTML)) m.remove();
@@ -191,9 +191,10 @@ export default function BlogOverview() {
               <div className="p-6">
                 <h1 className="text-3xl font-bold mb-4">{blog.title}</h1>
                 <p className="text-sm text-gray-500 mb-6">{new Date(blog.createdAt).toLocaleString()}</p>
-                <div className="prose max-w-none text-gray-800">
-                  <p>{blog.description}</p>
-                </div>
+                <div
+                  className="prose max-w-none text-gray-800 [&_ol]:list-decimal [&_ul]:list-disc [&_ol]:pl-5 [&_ul]:pl-5 [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:mb-4 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:mb-3 [&_h3]:text-xl [&_h3]:font-medium [&_h3]:mb-2"
+                  dangerouslySetInnerHTML={{ __html: blog.description }}
+                />
               </div>
             </article>
           ) : (

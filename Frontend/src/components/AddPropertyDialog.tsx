@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useState } from "react";
 import { propertyClint } from "../store/index";
+import { RichTextEditor } from "./RichTextEditor";
 
 import {
   Dialog,
@@ -120,7 +121,7 @@ export function AddPropertyDialog({ open, onOpenChange, onAdd }: AddPropertyDial
       if (data.unit) formData.append("unit", data.unit);
       if (data.price_unit) formData.append("price_unit", data.price_unit);
       if (data.Sub_type) formData.append("subType", data.Sub_type);
-      
+
 
       if (data.images && data.images.length > 0) {
         data.images.forEach((file) => formData.append("images", file));
@@ -156,7 +157,7 @@ export function AddPropertyDialog({ open, onOpenChange, onAdd }: AddPropertyDial
             )} />
 
             <FormField control={form.control} name="description" render={({ field }) => (
-              <FormItem><FormLabel>Description</FormLabel><FormControl><Textarea placeholder="Describe the property..." className="min-h-[100px]" {...field} /></FormControl><FormMessage /></FormItem>
+              <FormItem><FormLabel>Description</FormLabel><FormControl><RichTextEditor value={field.value || ""} onChange={field.onChange} /></FormControl><FormMessage /></FormItem>
             )} />
 
             <div className="grid grid-cols-2 gap-2">
@@ -242,7 +243,7 @@ export function AddPropertyDialog({ open, onOpenChange, onAdd }: AddPropertyDial
                       <SelectItem value="Plot">Plot</SelectItem>
                       <SelectItem value="Floor">Floor</SelectItem>
                       <SelectItem value="Apartment">Apartment</SelectItem>
-                      <SelectItem value="SCO Flats">SCO Flats</SelectItem>
+                      <SelectItem value="SCO Flats">SCO Plots</SelectItem>
                       <SelectItem value="Space">Space</SelectItem>
                       <SelectItem value="Land">Land</SelectItem>
                       <SelectItem value="Villa">Villa</SelectItem>
@@ -300,7 +301,7 @@ export function AddPropertyDialog({ open, onOpenChange, onAdd }: AddPropertyDial
                     </FormControl>
                     <FormMessage />
                     <p className="text-xs text-gray-500 mt-1">
-                     Slug has to be unique. If it same slug exists, property creation will fail.
+                      Slug has to be unique. If it same slug exists, property creation will fail.
                     </p>
                   </FormItem>
                 )}

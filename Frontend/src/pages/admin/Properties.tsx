@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { AddPropertyDialog } from "@/components/AddPropertyDialog";
 import { EditPropertyDialog } from "@/components/EditPropertyDialog";
 import { propertyClint } from "../../store/index";
+import { Description } from "@radix-ui/react-toast";
 
 export default function Properties() {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
@@ -76,6 +77,7 @@ export default function Properties() {
       metaTags: newProperty.metaTags || "",
       metaDescription: newProperty.metaDescription || "",
       createdAt: newProperty.createdAt,
+      Description: newProperty.Description,
     };
 
     setProperties((prev) => [formattedProperty, ...prev]);

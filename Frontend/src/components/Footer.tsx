@@ -78,7 +78,7 @@ const Footer: React.FC = () => {
               </Link>
             </li>
             <li>
-              <Link to="/filter" className="hover:text-cyan-700 mt-6">
+              <Link to="/properties" className="hover:text-cyan-700 mt-6">
                 Properties
               </Link>
             </li>
@@ -126,7 +126,7 @@ const Footer: React.FC = () => {
             </li>
           </ul>
           <button className="mt-6 bg-cyan-700 text-white px-4 py-2 rounded-md hover:bg-cyan-500 transition"
-            onClick={() => navigate('/filter')}
+            onClick={() => navigate('/properties')}
           >
             View All Projects
           </button>
