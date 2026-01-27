@@ -25,37 +25,12 @@ const BlogPage: React.FC = () => {
     const [blogs, setBlogs] = useState<BlogItem[]>([]);
     const [loading, setLoading] = useState(true);
 
-    const setMeta = (name: string, content: string) => {
-        let el = document.head.querySelector(`meta[name="${name}"]`) as HTMLMetaElement | null;
-        if (!el) {
-            el = document.createElement("meta");
-            el.setAttribute("name", name);
-            document.head.appendChild(el);
-        }
-        el.content = content;
-    };
-
-    const setCanonical = (href: string) => {
-        let link = document.head.querySelector<HTMLLinkElement>("link[rel='canonical']");
-        if (!link) {
-            link = document.createElement("link");
-            link.rel = "canonical";
-            document.head.appendChild(link);
-        }
-        link.href = href;
-    };
-
     useEffect(() => {
         const fetchBlogs = async () => {
             try {
                 setLoading(true);
                 const data = await blogClint.getBlog();
                 setBlogs(data.blogs);
-
-                // Set page-level SEO meta
-                document.title = "Blog & News | Real Estate";
-                setMeta("description", "Read our latest blog posts about real estate trends, market insights, and tips.");
-                setCanonical(`${window.location.origin}/blogs`);
             } catch (error) {
                 console.error("Failed to fetch blogs:", error);
             } finally {
@@ -64,8 +39,13 @@ const BlogPage: React.FC = () => {
         };
         fetchBlogs();
     }, []);
-    const truncate = (text: string | undefined, n = 150) =>
-        !text ? "" : text.length > n ? text.slice(0, n).trimEnd() + "..." : text;
+    const truncate = (text: string | undefined, n = 150) => {
+        if (!text) return "";
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = text;
+        const plainText = tempDiv.textContent || tempDiv.innerText || "";
+        return plainText.length > n ? plainText.slice(0, n).trimEnd() + "..." : plainText;
+    };
 
     return (
         <>
@@ -99,7 +79,7 @@ const BlogPage: React.FC = () => {
                                     //     <Card
                                     //         hoverable
                                     //         className="bg-gray-800 border-gray-700 text-white h-full flex flex-col"
-                                    //         cover={<img alt={blog.title} src={`${BACKEND_URL}${blog.image}`} className="h-56 w-full object-contain bg-black" />}
+                                    //         cover={<img alt={blog.title} src={${BACKEND_URL}${blog.image}} className="h-56 w-full object-contain bg-black" />}
                                     //     >
                                     //         <Title level={4} className="!text-white">{blog.title}</Title>
                                     //         <Paragraph className="text-gray-300 flex-grow">{blog.description}</Paragraph>

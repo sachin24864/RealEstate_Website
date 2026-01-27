@@ -146,28 +146,28 @@ const PropertyPage: React.FC = () => {
     // 6. Render the attractive page layout
     return (
         <>
-            <SEO
-                title={`${property.title} | Property in ${property.Location}`}
-                description={property.description?.slice(0, 155)}
-                url={`https://naveenassociatesgroup.com/property/${property.slug}`}
-                image={`${BACKEND_URL}${property.Images[0]}`}
-                schema={{
-                    "@context": "https://schema.org",
-                    "@type": "Residence",
-                    "name": property.title,
-                    "description": property.description,
-                    "address": {
-                        "@type": "PostalAddress",
-                        "addressLocality": property.Location,
-                        "addressCountry": "IN"
-                    },
-                    "offers": {
-                        "@type": "Offer",
-                        "priceCurrency": "INR",
-                        "price": property.Price
-                    }
-                }}
-            />
+           <SEO
+        title={`${property.title} | Property in ${property.Location}`}
+        description={property.description?.slice(0, 155)}
+        url={`https://naveenassociatesgroup.com/property/${property.slug}`}
+        image={`${BACKEND_URL}${property.Images[0]}`}
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "Residence",
+          "name": property.title,
+          "description": property.description,
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": property.Location,
+            "addressCountry": "IN"
+          },
+          "offers": {
+            "@type": "Offer",
+            "priceCurrency": "INR",
+            "price": property.Price
+          }
+        }}
+      />
 
             <Navbar />
             <Layout className="bg-gray-800 pt-20">

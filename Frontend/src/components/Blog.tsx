@@ -74,7 +74,7 @@
 //                                 <Card
 //                                     hoverable
 //                                     className="bg-gray-700 border-gray-600 text-white h-full flex flex-col transform transition-transform duration-300 hover:-translate-y-2"
-//                                     cover={<img alt={item.title} src={`${BACKEND_URL}${item.image}`} className="h-48 w-full object-contain bg-black" />}
+//                                     cover={<img alt={item.title} src={${BACKEND_URL}${item.image}} className="h-48 w-full object-contain bg-black" />}
 //                                 >
 //                                     <div className="flex flex-col flex-grow">
 //                                         <Title level={4} className="text-lg font-semibold mb-2 !text-white">
@@ -113,8 +113,13 @@ interface BlogItem {
     slug: string;
 }
 
-const truncate = (text: string | undefined, n = 150) =>
-    !text ? "" : text.length > n ? text.slice(0, n).trimEnd() + "..." : text;
+const truncate = (text: string | undefined, n = 150) => {
+    if (!text) return "";
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = text;
+    const plainText = tempDiv.textContent || tempDiv.innerText || "";
+    return plainText.length > n ? plainText.slice(0, n).trimEnd() + "..." : plainText;
+};
 
 
 const Blog: React.FC = () => {

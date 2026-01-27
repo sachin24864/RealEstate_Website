@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Spin, message } from "antd";
 import { blogClint } from "@/store";
+import SEO from "@/components/SEO";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 interface BlogItem {
@@ -24,73 +25,6 @@ export default function BlogOverview() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let previousTitle = document.title;
-    const previousMetaTags: HTMLMetaElement[] = Array.from(
-      document.head.querySelectorAll('meta[name="description"], meta[name="keywords"], meta[property^="og:"], meta[name^="twitter:"]')
-    );
-    const previousCanonical = document.head.querySelector<HTMLLinkElement>("link[rel='canonical']");
-
-    // Save HTML of previous meta tags to restore easily
-    const previousMetaHTML = previousMetaTags.map((t) => t.outerHTML).join("");
-    const previousCanonicalHref = previousCanonical?.href || null;
-
-    const addOrUpdateMeta = (opts: { name?: string; property?: string; content: string }) => {
-      const selector = opts.name ? `meta[name="${opts.name}"]` : `meta[property="${opts.property}"]`;
-      let el = document.head.querySelector<HTMLMetaElement>(selector);
-      if (!el) {
-        el = document.createElement("meta");
-        if (opts.name) el.setAttribute("name", opts.name);
-        if (opts.property) el.setAttribute("property", opts.property);
-        document.head.appendChild(el);
-      }
-      el.content = opts.content;
-    };
-
-    const setCanonical = (href: string) => {
-      let link = document.head.querySelector<HTMLLinkElement>("link[rel='canonical']");
-      if (!link) {
-        link = document.createElement("link");
-        link.rel = "canonical";
-        document.head.appendChild(link);
-      }
-      link.href = href;
-    };
-
-    const removeInjected = () => {
-      // Remove any meta tags we add with property/name checks (we remove by matching values we set below)
-      const keys = [
-        'description',
-        'keywords',
-      ];
-      keys.forEach((k) => {
-        const m = document.head.querySelector(`meta[name="${k}"]`);
-        if (m && !previousMetaHTML.includes(m.outerHTML)) m.remove();
-      });
-
-      const ogKeys = ['og:title', 'og:description', 'og:image', 'og:url'];
-      ogKeys.forEach(k => {
-        const m = document.head.querySelector(`meta[property="${k}"]`);
-        if (m && !previousMetaHTML.includes(m.outerHTML)) m.remove();
-      });
-
-      const twKeys = ['twitter:card', 'twitter:title', 'twitter:description', 'twitter:image'];
-      twKeys.forEach(k => {
-        const m = document.head.querySelector(`meta[name="${k}"]`);
-        if (m && !previousMetaHTML.includes(m.outerHTML)) m.remove();
-      });
-
-      // restore canonical
-      if (previousCanonicalHref) {
-        setCanonical(previousCanonicalHref);
-      } else {
-        const curr = document.head.querySelector<HTMLLinkElement>("link[rel='canonical']");
-        if (curr && !previousCanonical) curr.remove();
-      }
-
-      // restore title
-      document.title = previousTitle;
-    };
-
     const fetchBlog = async () => {
       if (!slug) return;
       try {
@@ -102,38 +36,6 @@ export default function BlogOverview() {
           return;
         }
         setBlog(b);
-
-        // Title
-        const title = b.metaTitle || b.title;
-        document.title = title;
-
-        // Basic meta
-        const description = b.metaDescription || (b.description || "").substring(0, 160);
-        addOrUpdateMeta({ name: "description", content: description });
-
-        if (b.metaKeywords) addOrUpdateMeta({ name: "keywords", content: b.metaKeywords });
-
-        // Open Graph
-        addOrUpdateMeta({ property: "og:title", content: title });
-        addOrUpdateMeta({ property: "og:description", content: description });
-
-        const imageUrl = b.image && (b.image.startsWith("http") ? b.image : `${BACKEND_URL}${b.image}`);
-        if (imageUrl) {
-          addOrUpdateMeta({ property: "og:image", content: imageUrl });
-          addOrUpdateMeta({ name: "twitter:image", content: imageUrl });
-        }
-
-        addOrUpdateMeta({ property: "og:url", content: window.location.href });
-
-        // Twitter card
-        addOrUpdateMeta({ name: "twitter:card", content: "summary_large_image" });
-        addOrUpdateMeta({ name: "twitter:title", content: title });
-        addOrUpdateMeta({ name: "twitter:description", content: description });
-
-        // canonical
-        const canonicalUrl = `${window.location.origin}/blog/${b._id}`;
-        setCanonical(canonicalUrl);
-
       } catch (err) {
         console.error("Failed to fetch blog:", err);
         message.error("Failed to load blog post");
@@ -143,24 +45,6 @@ export default function BlogOverview() {
     };
 
     fetchBlog();
-
-    return () => {
-      // clean up: remove tags we injected and restore previous canonical/title/meta where possible
-      // simplest safe restore: remove injected tags & restore previous canonical and title
-      removeInjected();
-      // re-add previous metas if they existed
-      if (previousMetaHTML) {
-        // insert previous meta HTML snippets (best-effort)
-        // remove current ones that overlap, then append previous
-        const container = document.createElement("div");
-        container.innerHTML = previousMetaHTML;
-        Array.from(container.children).forEach(ch => document.head.appendChild(ch));
-      }
-      if (previousCanonicalHref) {
-        setCanonical(previousCanonicalHref);
-      }
-      document.title = previousTitle;
-    };
   }, [slug]);
 
   const imgSrc =
@@ -168,6 +52,22 @@ export default function BlogOverview() {
 
   return (
     <>
+      {blog && (
+        <SEO
+          title={blog.metaTitle || blog.title}
+          description={blog.metaDescription || (blog.description || "").substring(0, 160)}
+          url={`https://naveenassociatesgroup.com/blog/${blog.slug || blog._id}`}
+          image={imgSrc}
+          schema={{
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": blog.title,
+            "image": imgSrc,
+            "datePublished": blog.createdAt,
+            "description": blog.description
+          }}
+        />
+      )}
       <Navbar />
       <main className="min-h-screen bg-gray-50 py-12">
         <div className="max-w-4xl mx-auto px-4">
