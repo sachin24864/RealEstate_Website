@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { message } from "antd";
+import SEO from "@/components/SEO";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -105,6 +106,11 @@ export default function PropertyGallery() {
 
   return (
     <>
+      <SEO
+        title="Gallery | Naveen Associates - Real Estate in Gurugram"
+        description="Explore our gallery showcasing office environments and client interactions at Naveen Associates, your trusted real estate partner in Gurugram."
+        url="https://naveenassociatesgroup.com/gallery"
+      />
       <Navbar />
       <div className="min-h-screen bg-gray-800 py-20 px-6 sm:px-10 lg:px-20 text-white">
         <h1 className="text-4xl font-bold text-center mb-14">
