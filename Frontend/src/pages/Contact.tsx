@@ -50,6 +50,7 @@ const ContactPage: React.FC = () => {
         title="Contact Naveen Associates | Real Estate Agent in Gurugram"
         description="Contact Naveen Associates, trusted real estate consultants in Sector 108 Gurugram. Call or visit our office."
         url="https://naveenassociatesgroup.com/contact"
+        canonical="https://naveenassociatesgroup.com/contact"
         schema={{
           "@context": "https://schema.org",
           "@type": "RealEstateAgent",

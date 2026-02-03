@@ -57,6 +57,7 @@ export default function BlogOverview() {
           title={blog.metaTitle || blog.title}
           description={blog.metaDescription || (blog.description || "").substring(0, 160)}
           url={`https://naveenassociatesgroup.com/blog/${blog.slug || blog._id}`}
+          canonical={`https://naveenassociatesgroup.com/blog/${blog.slug || blog._id}`}
           image={imgSrc}
           schema={{
             "@context": "https://schema.org",

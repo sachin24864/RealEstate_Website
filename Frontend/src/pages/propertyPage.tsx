@@ -150,6 +150,7 @@ const PropertyPage: React.FC = () => {
         title={`${property.title} | Property in ${property.Location}`}
         description={property.description?.slice(0, 155)}
         url={`https://naveenassociatesgroup.com/property/${property.slug}`}
+        canonical={`https://naveenassociatesgroup.com/property/${property.slug}`}
         image={`${BACKEND_URL}${property.Images[0]}`}
         schema={{
           "@context": "https://schema.org",

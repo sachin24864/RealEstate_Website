@@ -110,6 +110,7 @@ export default function PropertyGallery() {
         title="Gallery | Naveen Associates - Real Estate in Gurugram"
         description="Explore our gallery showcasing office environments and client interactions at Naveen Associates, your trusted real estate partner in Gurugram."
         url="https://naveenassociatesgroup.com/gallery"
+        canonical="https://naveenassociatesgroup.com/gallery"
       />
       <Navbar />
       <div className="min-h-screen bg-gray-800 py-20 px-6 sm:px-10 lg:px-20 text-white">

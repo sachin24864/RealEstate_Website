@@ -1,4 +1,4 @@
-import model from '../Models/admin.js';
+import model from '../models/admin.js';
 
 export const find = (criteria, projection, options = {}) => {
     options.lean = true;

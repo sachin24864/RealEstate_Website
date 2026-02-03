@@ -20,7 +20,8 @@ const AboutPage: React.FC = () => {
             <SEO
                 title="About Naveen Associates | Real Estate Company in Gurugram"
                 description="Learn about Naveen Associates - your trusted real estate partner in Gurugram with years of expertise in residential, commercial, and industrial properties."
-                url="https://naveenassociatesgroup.com/about-us"
+                url ="https://naveenassociatesgroup.com/about-us"
+                canonical="https://naveenassociatesgroup.com/about-us"
                 schema={{
                     "@context": "https://schema.org",
                     "@type": "Organization",

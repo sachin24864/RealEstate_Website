@@ -1,4 +1,4 @@
-import model from '../Models/Properties.js';
+import model from '../models/Properties.js';
 
 export const find = (criteria, projection, options = {}) => {
     options.lean = true;

@@ -4,6 +4,7 @@ interface SEOProps {
   title: string;
   description?: string;
   url: string;
+  canonical: string;
   image?: string;
   schema?: object;
 }
@@ -12,6 +13,7 @@ const SEO: React.FC<SEOProps> = ({
   title,
   description,
   url,
+  canonical,
   image,
   schema,
 }) => {
@@ -24,7 +26,7 @@ const SEO: React.FC<SEOProps> = ({
       )}
 
       {/* CANONICAL TAG (MOST IMPORTANT) */}
-      <link rel="canonical" href={url} />
+      <link rel="canonical" href={canonical} />
 
       {/* OPEN GRAPH */}
       <meta property="og:type" content="website" />
