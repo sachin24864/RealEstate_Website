@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import Blog from "../models/blog.js";
+import Blog from "../Models/blog.js";
 
 // Helper to create slug from title
 const generateSlug = (title) => {

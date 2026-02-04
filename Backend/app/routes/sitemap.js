@@ -1,7 +1,7 @@
 import { SitemapStream, streamToPromise } from "sitemap";
 import { Readable } from "stream";
-import Blog from "../models/blog.js";
-import Property from "../models/Properties.js";
+import Blog from "../Models/blog.js";
+import Property from "../Models/Properties.js";
 
 export async function sitemapHandler(req, res) {
   try {

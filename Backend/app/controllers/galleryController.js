@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import Gallery from "../models/gallery.js";
+import Gallery from "../Models/gallery.js";
 
 /* ================= CONSTANTS ================= */
 
