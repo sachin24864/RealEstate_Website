@@ -7,10 +7,18 @@ import { comparePassword, hashPassword } from "../middleware/hashPassword.js";
 import checkauth from "../middleware/Checkauth.js";
 import { role } from "../constants/index.js";
 import { sendPasswordResetEmail } from "../libs/communication.js"; 
+import { sitemapHandler } from "./sitemap.js";
+import { robotsHandler } from "./robots.js";
+
 
 
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 const router = Router();
+
+// SITEMAP AND ROBOTS ROUTES
+router.get("/sitemap.xml", sitemapHandler);
+router.get("/robots.txt", robotsHandler);
+
 
 router.use("/api", api);
 
