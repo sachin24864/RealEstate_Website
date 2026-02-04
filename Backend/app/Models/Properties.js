@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { status } from "../constants/index.js";
 
 const schema = new mongoose.Schema({
     id: {

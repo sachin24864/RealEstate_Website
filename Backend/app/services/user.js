@@ -1,4 +1,4 @@
-import model from '../models/user.js';
+import model from '../Models/user.js';
 
 export const find = (criteria, projection, options = {}) => {
     options.lean = true;

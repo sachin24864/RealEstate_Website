@@ -2,7 +2,7 @@ import './app/config/env.js';
 import mongoose from './app/config/mongoose.js';
 import { role } from './app/constants/index.js';
 import { hashPassword } from './app/middleware/hashPassword.js'; // ✅ use correct import
-import AdminSchema from './app/models/admin.js';
+import AdminSchema from './app/Models/admin.js';
 
 async function genAdmin(email, password, name) {
   try {
