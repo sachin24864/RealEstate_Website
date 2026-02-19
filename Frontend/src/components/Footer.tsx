@@ -98,7 +98,9 @@ const Footer: React.FC = () => {
               </Link>
             </li>
           </ul>
+          <img src="/assets/gallery/test/Trustpilot.png" alt="Trustpilot" className="h-20 mt-10 w-40 cursor-pointer" onClick={() => window.location.href = ("https://www.trustpilot.com/review/naveenassociatesgroup.com")} />
         </div>
+        
 
         {/* Featured Projects */}
         <div className="bg-gray-800 rounded-xl p-6 shadow-md">

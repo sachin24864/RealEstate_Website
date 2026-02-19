@@ -51,6 +51,8 @@ const formatUnitLabel = (u?: string) => {
             return "Sq. Yd";
         case "acre":
             return "Acre";
+        case "per month":
+            return "Per Month";
         default:
             // If already a readable string, return as-is
             return u;

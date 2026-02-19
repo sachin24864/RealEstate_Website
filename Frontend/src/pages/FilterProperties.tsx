@@ -58,6 +58,7 @@ const FilterProperties: React.FC = () => {
   title={`Properties in ${city || "Gurugram"} ${type ? `| ${type}` : ""} ${subType ? `| ${subType}` : ""} | Naveen Associates`}
   description={`Browse ${type || ""} ${subType || ""} properties in ${city || "Gurugram"}. Verified listings by Naveen Associates.`}
   url={window.location.href}
+  canonical={window.location.href}
 />
 
 

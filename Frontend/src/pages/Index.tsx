@@ -22,6 +22,7 @@ const Index = () => {
         title="Naveen Associates | Best Property Dealer in Gurugram"
         description="Naveen Associates is a renowned name in real estate in gurugram. We deal in different types of property in gurugram like commercial, residential, industrial etc."
         url="https://naveenassociatesgroup.com/"
+        canonical="https://naveenassociatesgroup.com/"
       />
       <Navbar />
       <Hero />

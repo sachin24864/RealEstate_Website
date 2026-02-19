@@ -7,16 +7,16 @@ export async function sitemapHandler(req, res) {
   try {
     const links = [];
 
-    // ✅ STATIC PAGES
+    //  STATIC PAGES
     links.push(
       { url: "/", changefreq: "daily", priority: 1.0 },
       { url: "/about-us", changefreq: "monthly", priority: 0.8 },
       { url: "/contact", changefreq: "monthly", priority: 0.8 },
-      { url: "/blog", changefreq: "daily", priority: 0.9 },
+      { url: "/blogs", changefreq: "daily", priority: 0.9 },
       { url: "/gallery", changefreq: "monthly", priority: 0.6 }
     );
 
-    // ✅ BLOGS
+    //  BLOGS
     const blogs = await Blog.find({}, "slug updatedAt");
     blogs.forEach(blog => {
       links.push({
@@ -27,7 +27,7 @@ export async function sitemapHandler(req, res) {
       });
     });
 
-    // ✅ PROPERTIES
+    //  PROPERTIES
     const properties = await Property.find({}, "slug updatedAt");
     properties.forEach(property => {
       links.push({

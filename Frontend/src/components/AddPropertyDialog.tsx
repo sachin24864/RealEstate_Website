@@ -175,6 +175,7 @@ export function AddPropertyDialog({ open, onOpenChange, onAdd }: AddPropertyDial
                             <SelectItem value="per sqmeter">per sq.m</SelectItem>
                             <SelectItem value="per sqyard"> per sq.yd</SelectItem>
                             <SelectItem value="per acre"> per Acre</SelectItem>
+                            <SelectItem value="per month"> Per Month</SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>

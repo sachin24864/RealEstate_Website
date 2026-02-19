@@ -52,8 +52,8 @@ const BlogPage: React.FC = () => {
             <SEO
                 title="Blog & News | Naveen Associates"
                 description="Read latest real estate news, property tips and market insights by Naveen Associates."
-                url="https://naveenassociatesgroup.com/blog"
-                canonical="https://naveenassociatesgroup.com/blog"
+                url="https://naveenassociatesgroup.com/blogs"
+                canonical="https://naveenassociatesgroup.com/blogs"
             />
             <Navbar />
             <Layout className="bg-gray-900">

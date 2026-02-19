@@ -63,33 +63,39 @@ export const getAllProperties = async (req, res, next) => {
     const filter = {};
     console.log("Received Query Params:", req.query);
 
-    /* ---------- CITY ---------- */
+    /* ---------- CITY (GURGAON / GURUGRAM FIX) ---------- */
     if (city && city.trim()) {
-      filter.location = { $regex: new RegExp(city.trim(), 'i') };
+      const cityValue = city.trim().toLowerCase();
+
+      // If Gurgaon or Gurugram → match both
+      if (cityValue === "gurgaon" || cityValue === "gurugram") {
+        filter.location = { $regex: /(gurgaon|gurugram)/i };
+      } else {
+        filter.location = { $regex: new RegExp(city.trim(), "i") };
+      }
     }
 
     /* ---------- STATUS ---------- */
     if (queryStatus && queryStatus.trim()) {
-      const statusArray = String(queryStatus).split(',').map(s => s.trim());
+      const statusArray = String(queryStatus).split(",").map(s => s.trim());
       if (statusArray.length > 0 && statusArray[0] !== "") {
-        filter.status = { $in: statusArray.map(s => new RegExp(`^${s}$`, 'i')) };
+        filter.status = { $in: statusArray.map(s => new RegExp(`^${s}$`, "i")) };
       }
     }
 
     /* ---------- PROPERTY TYPE ---------- */
     if (queryType && queryType.trim()) {
-      const typeArray = String(queryType).split(',').map(t => t.trim().replace(/_/g, ' '));
+      const typeArray = String(queryType).split(",").map(t => t.trim().replace(/_/g, " "));
       if (typeArray.length > 0 && typeArray[0] !== "") {
-        filter.property_type = { $in: typeArray.map(t => new RegExp(`^${t}$`, 'i')) };
+        filter.property_type = { $in: typeArray.map(t => new RegExp(`^${t}$`, "i")) };
       }
     }
 
-    /* ---------- SUB TYPE (FIXED) ---------- */
+    /* ---------- SUB TYPE ---------- */
     if (querySubType && querySubType.trim()) {
-      const subTypeArray = String(querySubType).split(',').map(s => s.trim());
+      const subTypeArray = String(querySubType).split(",").map(s => s.trim());
       if (subTypeArray.length > 0 && subTypeArray[0] !== "") {
-        // This matches the "subType" field in your MongoDB schema
-        filter.subType = { $in: subTypeArray.map(s => new RegExp(`^${s}$`, 'i')) };
+        filter.subType = { $in: subTypeArray.map(s => new RegExp(`^${s}$`, "i")) };
       }
     }
 
@@ -120,6 +126,7 @@ export const getAllProperties = async (req, res, next) => {
     next(error);
   }
 };
+
 
 export const getcount = async (req, res, next) => {
   try {
