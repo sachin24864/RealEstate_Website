@@ -13,14 +13,15 @@ export async function sitemapHandler(req, res) {
       { url: "/about-us", changefreq: "monthly", priority: 0.8 },
       { url: "/contact", changefreq: "monthly", priority: 0.8 },
       { url: "/blogs", changefreq: "daily", priority: 0.9 },
-      { url: "/gallery", changefreq: "monthly", priority: 0.6 }
+      { url: "/gallery", changefreq: "monthly", priority: 0.6 },
+      { url: "/properties", changefreq: "daily", priority: 0.9 },
     );
 
     //  BLOGS
     const blogs = await Blog.find({}, "slug updatedAt");
     blogs.forEach(blog => {
       links.push({
-        url: `/blog/${blog.slug}`,
+        url: `/blog/${blog.slug || blog._id}`,
         lastmod: blog.updatedAt,
         changefreq: "weekly",
         priority: 0.8
@@ -31,7 +32,7 @@ export async function sitemapHandler(req, res) {
     const properties = await Property.find({}, "slug updatedAt");
     properties.forEach(property => {
       links.push({
-        url: `/property/${property.slug}`,
+        url: `/property/${property.slug || property._id}`,
         lastmod: property.updatedAt,
         changefreq: "weekly",
         priority: 0.9
