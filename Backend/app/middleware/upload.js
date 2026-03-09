@@ -15,7 +15,11 @@ const propertyImageStorage = multer.diskStorage({
     cb(null, propertyUploadDir);
   },
   filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
+    const cleanName = file.originalname
+    .replace(/\s+/g, "-")
+    .replace(/[^\w.-]/g, "")
+    .toLowerCase();
+    cb(null, `${Date.now()}-${cleanName}`);
   },
 });
 
@@ -24,7 +28,11 @@ const blogImageStorage = multer.diskStorage({
     cb(null, blogUploadDir);
   },
   filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
+    const cleanName = file.originalname
+    .replace(/\s+/g, "-")        // replace spaces
+    .replace(/[^\w.-]/g, "")     // remove special characters
+    .toLowerCase();
+    cb(null, `${Date.now()}-${cleanName}`);
   },
 });
 
@@ -60,7 +68,11 @@ export const galleryUpload = multer({
       cb(null, galleryUploadDir);
     },
     filename: (req, file, cb) => {
-      cb(null, `${Date.now()}-${file.originalname}`);
+       const cleanName = file.originalname
+    .replace(/\s+/g, "-")
+    .replace(/[^\w.-]/g, "")
+    .toLowerCase();
+      cb(null, `${Date.now()}-${cleanName}`);
     },
   }),
   limits: { fileSize: 5 * 1024 * 1024 },
