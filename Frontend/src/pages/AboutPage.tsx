@@ -22,20 +22,6 @@ const AboutPage: React.FC = () => {
                 description="Learn about Naveen Associates - your trusted real estate partner in Gurugram with years of expertise in residential, commercial, and industrial properties."
                 url ="https://naveenassociatesgroup.com/about-us"
                 canonical="https://naveenassociatesgroup.com/about-us"
-                schema={{
-                    "@context": "https://schema.org",
-                    "@type": "Organization",
-                    "name": "Naveen Associates",
-                    "url": "https://naveenassociatesgroup.com",
-                    "description": "Real estate company specializing in residential, commercial, and industrial properties in Gurugram",
-                    "address": {
-                        "@type": "PostalAddress",
-                        "streetAddress": "DP01 Tricolour Street, Sector 108",
-                        "addressLocality": "Gurugram",
-                        "addressRegion": "HR",
-                        "addressCountry": "IN"
-                    }
-                }}
             />
             <Navbar />
             <Layout className="bg-gray-900">
