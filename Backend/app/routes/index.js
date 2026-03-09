@@ -57,7 +57,6 @@ router.post("/login", async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 });
-
 /**
  * FORGET PASSWORD ROUTE
  */

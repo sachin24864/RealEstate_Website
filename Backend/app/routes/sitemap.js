@@ -21,7 +21,7 @@ export async function sitemapHandler(req, res) {
     const blogs = await Blog.find({}, "slug updatedAt");
     blogs.forEach(blog => {
       links.push({
-        url: `/blog/${blog.slug || blog._id}`,
+        url: `/blog/${blog.slug}`,
         lastmod: blog.updatedAt,
         changefreq: "weekly",
         priority: 0.8
@@ -32,7 +32,7 @@ export async function sitemapHandler(req, res) {
     const properties = await Property.find({}, "slug updatedAt");
     properties.forEach(property => {
       links.push({
-        url: `/property/${property.slug || property._id}`,
+        url: `/property/${property.slug}`,
         lastmod: property.updatedAt,
         changefreq: "weekly",
         priority: 0.9
