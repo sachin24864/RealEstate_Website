@@ -70,10 +70,12 @@ const Project: React.FC = () => {
               <span className="text-black">PROJECTS</span>
             </h2>
             <p className="mt-2 max-w-xl text-gray-700">
-              Our projects are a testament to the sustainable urban evolution
-              that creates an exceptional lifestyle for many. As a leading real
-              estate developer, we consistently strive to build projects that
-              set a new standard for residential & commercial property.
+              As the best property dealer in Gurgaon, we help clients discover the latest 
+              new project launch in Gurgaon. With updated market knowledge, We provide guidance on 
+              new residential and commercial properties, helping buyers explore suitable options 
+              based on their budget and preferences. If you are looking for investment or want to 
+              buy flats in Gurgaon, we are here to help you with flexible payment plans and strong 
+              future growth potential.
             </p>
           </div>
           <button
