@@ -5,7 +5,7 @@ import * as gallery from '../../controllers/galleryController.js';
 import { galleryUpload } from "../../middleware/upload.js";
 import checkauth from "../../middleware/Checkauth.js"
 import { propertyUpload, blogUpload } from "../../middleware/upload.js";
-import { createBlog, getAllBlogs, deleteBlog, getBlogById, updateBlog } from '../../controllers/blogController.js';
+import { createBlog, getAllBlogs, deleteBlog, getBlogBySlug, updateBlog } from '../../controllers/blogController.js';
 
 
 const router = Router();
@@ -20,7 +20,7 @@ router.get("/users", checkauth, user.getuser);
 router.get('/blog', getAllBlogs);
 router.post('/blog', checkauth, blogUpload.single('image'), createBlog);
 router.delete('/blog/:id', checkauth, deleteBlog);
-router.get('/blog/:id', getBlogById);
+router.get('/blog/slug/:slug', getBlogBySlug);
 router.put('/blog/:id', checkauth, updateBlog);
 // Gallery routes
 router.post('/gallery', checkauth, galleryUpload.single('image'), gallery.uploadGalleryImage);

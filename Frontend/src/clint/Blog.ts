@@ -17,10 +17,10 @@ export class BlogClint extends Client {
 
     async getBlogBySlug(slug: string) {
         try {
-            const res = await this.request("GET", `/api/admin/blog/${slug}`);
+            const res = await this.request("GET", `/api/admin/blog/slug/${slug}`);
             return res.data;
         } catch (error) {
-            console.error("getBlogById error:", error);
+            console.error("getBlogBySlug error:", error);
             throw error;
         }
     }
