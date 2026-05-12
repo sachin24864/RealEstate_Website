@@ -45,6 +45,7 @@ export default function Properties() {
           metaTitle: p.metaTitle || "",
           metaTags: p.metaTags || "",
           metaDescription: p.metaDescription || "",
+          description: p.description || "",
           createdAt: p.createdAt,
         }));
 

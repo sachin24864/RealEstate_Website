@@ -106,7 +106,7 @@ export class PropertyClient extends Client {
     }
   }
 
-  async updateProperty(id: string, data: { price: number; status: string }) {
+  async updateProperty(id: string, data: { price: number; status: string; description?: string; metaTitle?: string; metaTags?: string; metaDescription?: string }) {
     try {
       const res = await this.request("PUT", `/api/admin/properties/${id}`, {
         data

@@ -261,7 +261,7 @@ export const deleteProperty = async (req, res, next) => {
 export const editProperty = async (req, res, next) => {
   try {
     const id = req.params.id;
-    const { price, status, unit } = req.body;
+    const { price, status, unit, description, metaTitle, metaTags, metaDescription } = req.body;
 
     const property = await PropertiesServices.findOne({
       _id: id,
@@ -274,6 +274,11 @@ export const editProperty = async (req, res, next) => {
     const updateData = {};
     if (price !== undefined) updateData.price = price;
     if (status !== undefined) updateData.status = status;
+    if (unit !== undefined) updateData.unit = unit;
+    if (description !== undefined) updateData.description = description;
+    if (metaTitle !== undefined) updateData.metaTitle = metaTitle;
+    if (metaTags !== undefined) updateData.metaTags = metaTags;
+    if (metaDescription !== undefined) updateData.metaDescription = metaDescription;
 
     await PropertiesServices.updateOne({ _id: id }, { $set: updateData });
 
@@ -294,6 +299,9 @@ export const editProperty = async (req, res, next) => {
         unit: updated.unit || "",
         status: updated.status,
         images: updated.images || [],
+        metaTitle: updated.metaTitle,
+        metaTags: updated.metaTags,
+        metaDescription: updated.metaDescription,
         updatedAt: updated.updatedAt,
         slug: updated.slug || "",
       },
